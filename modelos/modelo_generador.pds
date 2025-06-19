@@ -1,0 +1,29 @@
+Root-Coordinator
+ {
+  Simulator
+   {
+    Path = sources/generador_arribos.h
+    Parameters = 
+   }
+  Simulator
+   {
+    Path = sinks\to_disk.h
+    Parameters = "prueba.csv"
+   }
+  Simulator
+   {
+    Path = sinks/gnuplot.h
+    Parameters = 1.000000e+00,"set xrange [0:%tf] @ set grid @ set title 'Plot'","with lines title 'First output'","","","",""
+   }
+  EIC
+   {
+   }
+  EOC
+   {
+   }
+  IC
+   {
+    (0,0);(1,0)
+    (0,0);(2,0)
+   }
+ }
