@@ -7,13 +7,23 @@ Root-Coordinator
    }
   Simulator
    {
-    Path = sinks\to_disk.h
-    Parameters = "prueba.csv"
+    Path = sinks/to_disk.h
+    Parameters = "modelo.csv"
    }
   Simulator
    {
     Path = sinks/gnuplot.h
-    Parameters = 1.000000e+00,"set xrange [0:%tf] @ set grid @ set title 'Plot'","with lines title 'First output'","","","",""
+    Parameters = 1.000000e+00,"set xrange [0:%tf] @ set grid @ set title 'Plot'","with point title 'First output'","","","",""
+   }
+  Simulator
+   {
+    Path = sources/sensor_entrada.h
+    Parameters = 
+   }
+  Simulator
+   {
+    Path = sources/barrera_entrada.h
+    Parameters = 
    }
   EIC
    {
@@ -23,7 +33,9 @@ Root-Coordinator
    }
   IC
    {
-    (0,0);(1,0)
-    (0,0);(2,0)
+    (0,0);(3,0)
+    (3,0);(2,0)
+    (3,0);(1,0)
+    (4,0);(3,0)
    }
  }
