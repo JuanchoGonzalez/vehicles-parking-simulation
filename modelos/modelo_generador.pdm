@@ -26,7 +26,7 @@ Coupled
             Description = 
             Graphic
                 {
-                Position = -4905 ; -5655
+                Position = -4830 ; -4980
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -44,7 +44,7 @@ Coupled
             Description = Save the values (event,t) in a file.
             Graphic
                 {
-                Position = 1770 ; -3330
+                Position = 570 ; -3705
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -52,7 +52,7 @@ Coupled
                 }
             Parameters
                 {
-                File = Str; modelo.csv ; file name
+                File = Str; sensor_entrada.csv ; file name
                 }
             }
         Atomic
@@ -63,7 +63,7 @@ Coupled
             Description = Plot input signal using GnuPlot
             Graphic
                 {
-                Position = -330 ; -5835
+                Position = 720 ; -5160
                 Dimension = 675 ; 720
                 Direction = Right
                 Color = 15
@@ -83,13 +83,13 @@ Coupled
         Atomic
             {
             Name = SensorEntrada
-            Ports = 1 ; 1
+            Ports = 2 ; 1
             Path = sources/sensor_entrada.h
             Description = Atomic DEVS model
             Graphic
                 {
-                Position = -1980 ; -4410
-                Dimension = 675 ; 720
+                Position = -2280 ; -4305
+                Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
                 Icon = None
@@ -101,13 +101,13 @@ Coupled
         Atomic
             {
             Name = BarreraEntrada
-            Ports = 1 ; 1
+            Ports = 2 ; 1
             Path = sources/barrera_entrada.h
             Description = Atomic DEVS model
             Graphic
                 {
-                Position = -3930 ; -2535
-                Dimension = 675 ; 720
+                Position = -4830 ; -3630
+                Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
                 Icon = None
@@ -116,33 +116,59 @@ Coupled
                 {
                 }
             }
-        Line
+        Atomic
             {
-            Source = Cmp ;  1 ;  1 ; 0
-            Sink = Cmp ;  4 ;  1 ; -1
-            PointX = -4125 ; -3150 ; -3150 ; -2115
-            PointY = -5325 ; -5325 ; -4050 ; -4050
+            Name = To Disk1
+            Ports = 1 ; 0
+            Path = sinks\to_disk.h
+            Description = Save the values (event,t) in a file.
+            Graphic
+                {
+                Position = -2805 ; -5730
+                Dimension = 675 ; 675
+                Direction = Right
+                Color = 15
+                Icon = %sinks%todisk.svg
+                }
+            Parameters
+                {
+                File = Str; generador_arribos.csv ; file name
+                }
             }
         Line
             {
             Source = Cmp ;  4 ;  1 ; 0
             Sink = Cmp ;  3 ;  1 ; -1
-            PointX = -1200 ; -465 ; -465
-            PointY = -4050 ; -4050 ; -5475
+            PointX = -1500 ; -900 ; -900 ; 585
+            PointY = -3975 ; -3975 ; -4800 ; -4800
             }
         Line
             {
             Source = Cmp ;  4 ;  1 ; 0
             Sink = Cmp ;  2 ;  1 ; -1
-            PointX = -1200 ; 1635 ; 1635
-            PointY = -4050 ; -4050 ; -3000
+            PointX = -1500 ; -900 ; -900 ; 435
+            PointY = -3975 ; -3975 ; -3375 ; -3375
+            }
+        Line
+            {
+            Source = Cmp ;  1 ;  1 ; 0
+            Sink = Cmp ;  4 ;  1 ; -1
+            PointX = -4050 ; -3150 ; -3150 ; -2415
+            PointY = -4650 ; -4650 ; -4125 ; -4125
             }
         Line
             {
             Source = Cmp ;  5 ;  1 ; 0
-            Sink = Cmp ;  4 ;  1 ; -1
-            PointX = -3150 ; -2115 ; -2115
-            PointY = -2175 ; -2175 ; -4050
+            Sink = Cmp ;  4 ;  2 ; -1
+            PointX = -4050 ; -3150 ; -3150 ; -2415
+            PointY = -3300 ; -3300 ; -3825 ; -3825
+            }
+        Line
+            {
+            Source = Cmp ;  1 ;  1 ; 0
+            Sink = Cmp ;  6 ;  1 ; -1
+            PointX = -4050 ; -2940 ; -2940
+            PointY = -4650 ; -4650 ; -5400
             }
         }
     }

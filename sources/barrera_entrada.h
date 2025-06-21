@@ -6,20 +6,23 @@
 #include "event.h"
 #include "limits"
 #include "queue"
-
+#include "ctime"
+#include "../random/lib/randomc.h"
+#include "../random/lib/stocc.h"
 
 class barrera_entrada: public Simulator { 
 // Declare the state,
 // output variables
 // and parameters
 
-bool lo;
+bool b;
 double sigma;
-
+CRandomMersenne rng;
 static const double infinity;
+Event salidas[2];
 
 public:
-	barrera_entrada(const char *n): Simulator(n) {};
+	barrera_entrada(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};
 	void init(double, ...);
 	double ta(double t);
 	void dint(double);

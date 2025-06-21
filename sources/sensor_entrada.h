@@ -4,18 +4,16 @@
 
 #include "simulator.h"
 #include "event.h"
-
 #include "queue"
 #include "limits"
-
 
 class sensor_entrada: public Simulator { 
 // Declare the state,
 // output variables
 // and parameters
 
-std::queue<double> q;
-bool lo;
+std::queue<double> l;
+bool b;
 double sigma;
 
 static const double infinity;
