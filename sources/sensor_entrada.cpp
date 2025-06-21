@@ -10,7 +10,6 @@ void sensor_entrada::init(double t,...) {
 //where:
 //      %Name% is the parameter name
 //	%Type% is the parameter type
-    l.push(0.0);
     b = false;
     sigma = infinity;
 }
@@ -37,10 +36,10 @@ void sensor_entrada::dext(Event x, double t) {
     if (x.port == 0 and !b){
         b = true;
         sigma = 1.0;
-    }else if (x.port == 0 and b) {
+    } else if (x.port == 0 and b) {
         double* valor = static_cast<double*>(x.value); //value es de tipo void hay que castear si o si
         l.push(*valor);
-    }else if (x.port == 1) {
+    } else if (x.port == 1) {
         b = false;
         sigma = 1.0;
     }
