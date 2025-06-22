@@ -106,7 +106,7 @@ Coupled
             Description = Atomic DEVS model
             Graphic
                 {
-                Position = -4830 ; -3630
+                Position = -4830 ; -3030
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -135,6 +135,42 @@ Coupled
                 File = Str; generador_arribos.csv ; file name
                 }
             }
+        Atomic
+            {
+            Name = SensorSalida
+            Ports = 2 ; 1
+            Path = sources/sensor_salida.h
+            Description = Atomic DEVS model
+            Graphic
+                {
+                Position = -705 ; -6330
+                Dimension = 675 ; 675
+                Direction = Right
+                Color = 15
+                Icon = None
+                }
+            Parameters
+                {
+                }
+            }
+        Atomic
+            {
+            Name = BarreraSalida
+            Ports = 1 ; 2
+            Path = 
+            Description = Atomic DEVS model
+            Graphic
+                {
+                Position = -2805 ; -7230
+                Dimension = 675 ; 675
+                Direction = Right
+                Color = 15
+                Icon = None
+                }
+            Parameters
+                {
+                }
+            }
         Line
             {
             Source = Cmp ;  4 ;  1 ; 0
@@ -161,7 +197,7 @@ Coupled
             Source = Cmp ;  5 ;  1 ; 0
             Sink = Cmp ;  4 ;  2 ; -1
             PointX = -4050 ; -3150 ; -3150 ; -2415
-            PointY = -3300 ; -3300 ; -3825 ; -3825
+            PointY = -2700 ; -2700 ; -3825 ; -3825
             }
         Line
             {
