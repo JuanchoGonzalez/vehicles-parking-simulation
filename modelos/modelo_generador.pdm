@@ -157,7 +157,7 @@ Coupled
             {
             Name = BarreraSalida
             Ports = 1 ; 2
-            Path = 
+            Path = sources/barrera_salida.h
             Description = Atomic DEVS model
             Graphic
                 {
