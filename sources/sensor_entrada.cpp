@@ -33,10 +33,10 @@ void sensor_entrada::dext(Event x, double t) {
 //     'x.value' is the value (pointer to void)
 //     'x.port' is the port number
 //     'e' is the time elapsed since last transition
-    if (x.port == 0 and !b){
+    if (x.port == 0 && !b){
         b = true;
         sigma = 1.0;
-    } else if (x.port == 0 and b) {
+    } else if (x.port == 0 && b) {
         double* valor = static_cast<double*>(x.value); //value es de tipo void hay que castear si o si
         l.push(*valor);
     } else if (x.port == 1) {
@@ -50,8 +50,8 @@ Event sensor_entrada::lambda(double t) {
 //where:
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
-    static double salida = 1.0; // si es 1.0 es xq llego un vehiculo(puede o no ir a la cola)
-    return Event(&salida, 0);
+    detectarVehiculo = 1.0; // si es 1.0 es xq llego un vehiculo(puede o no ir a la cola)
+    return Event(&detectarVehiculo, 0);
 }
 void sensor_entrada::exit() {
     //Code executed at the end of the simulation.

@@ -1,25 +1,29 @@
-//CPP:sources/generador_arribos.cpp
-#if !defined generador_arribos_h
-#define generador_arribos_h
+//CPP:sources/estacionamiento.cpp
+#if !defined estacionamiento_h
+#define estacionamiento_h
 
 #include "simulator.h"
 #include "event.h"
 #include "stdarg.h"
+#include "limits"
+#include "queue"
 #include "ctime"
 #include "../random/lib/randomc.h"
 #include "../random/lib/stocc.h"
 
-class generador_arribos: public Simulator { 
+class estacionamiento: public Simulator { 
 // Declare the state,
 // output variables
 // and parameters
+
+std::queue<std::pair<double, double> > l;
 double sigma;
-double id;
-double r;
 CRandomMersenne rng;
-double y;
+static const double infinity;
+double vehiculoQuiereSalir;
+
 public:
-	generador_arribos(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};
+	estacionamiento(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};
 	void init(double, ...);
 	double ta(double t);
 	void dint(double);

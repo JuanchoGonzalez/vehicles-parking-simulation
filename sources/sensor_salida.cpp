@@ -33,13 +33,13 @@ void sensor_salida::dext(Event x, double t) {
 //     'x.value' is the value (pointer to void)
 //     'x.port' is the port number
 //     'e' is the time elapsed since last transition
-    if (x.port == 0 and l.empty() and !b) {
+    if (x.port == 0 && l.empty() && !b) {
         b = true;
         sigma = 1.0;
-    } else if (x.port == 0 and !l.empty() and b) {
+    } else if (x.port == 0 && !l.empty() && b) {
         double* valor = static_cast<double*>(x.value);
         l.push(*valor);
-    } else {
+    } else if (x.port == 1) {
         b = false;
         sigma = 1.0;
     }
@@ -50,7 +50,7 @@ Event sensor_salida::lambda(double t) {
 //where:
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
-    static double solicitarSalida = 1.0; // hace referencia a la señal
+    solicitarSalida = 1.0; // hace referencia a la señal
     return Event(&solicitarSalida, 0);
 }
 void sensor_salida::exit() {

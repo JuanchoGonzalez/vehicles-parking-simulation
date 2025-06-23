@@ -1,6 +1,6 @@
 #include "barrera_entrada.h"
-#include "../random/lib/randomc.cpp"
-#include "../random/lib/stocc.cpp"
+#include "../random/lib/randomc.h"
+#include "../random/lib/stocc.h"
 
 const double barrera_entrada::infinity = std::numeric_limits<double>::infinity();
 
@@ -50,10 +50,10 @@ Event barrera_entrada::lambda(double t) {
 //where:
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
-	static double finBarrera = 1.0;
+	finBarrera = 1.0;
 
 	if (b) {
-		static double vehiculoIngreso = 1.0;
+		vehiculoIngreso = 1.0;
 		salidas[0] = (Event(&vehiculoIngreso, 0)); // puerto 0 para vehiculoIngreso
 		salidas[1] = (Event(&finBarrera, 1)); // puerto 1 para fin de barrera
 		return Event(&salidas, 0);

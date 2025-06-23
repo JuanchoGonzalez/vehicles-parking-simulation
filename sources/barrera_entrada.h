@@ -5,7 +5,6 @@
 #include "simulator.h"
 #include "event.h"
 #include "limits"
-#include "queue"
 #include "ctime"
 #include "../random/lib/randomc.h"
 #include "../random/lib/stocc.h"
@@ -20,6 +19,8 @@ double sigma;
 CRandomMersenne rng;
 static const double infinity;
 Event salidas[2];
+double finBarrera;
+double vehiculoIngreso;
 
 public:
 	barrera_entrada(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};

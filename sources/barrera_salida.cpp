@@ -1,6 +1,8 @@
 #include "barrera_salida.h"
-#include "../random/lib/randomc.cpp"
-#include "../random/lib/stocc.cpp"
+#include "../random/lib/randomc.h"
+#include "../random/lib/stocc.h"
+
+const double barrera_salida::infinity = std::numeric_limits<double>::infinity();
 
 void barrera_salida::init(double t,...) {
 //The 'parameters' variable contains the parameters transferred from the editor.
@@ -38,8 +40,8 @@ Event barrera_salida::lambda(double t) {
 //where:
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
-    static double finBarrera = 1.0;
-	static double vehiculoHaSalido = 1.0;
+    finBarrera = 1.0;
+	vehiculoHaSalido = 1.0;
 	salidas[0] = (Event(&vehiculoHaSalido, 0)); // puerto 0 para vehiculoHaSalido
 	salidas[1] = (Event(&finBarrera, 1)); // puerto 1 para fin de barrera
 	return Event(&salidas, 0);

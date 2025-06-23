@@ -1,6 +1,6 @@
 #include "generador_arribos.h"
-#include "../random/lib/randomc.h"
-#include "../random/lib/stocc.h"
+#include "../random/lib/randomc.cpp"
+#include "../random/lib/stocc.cpp"
 
 void generador_arribos::init(double t,...) {
 //The 'parameters' variable contains the parameters transferred from the editor.
