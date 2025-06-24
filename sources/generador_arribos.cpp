@@ -43,6 +43,7 @@ Event generador_arribos::lambda(double t) {
 //where:
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
+    printLog("Vehiculo: %f llego en t = %f \n", id, t);
     y = id;
     return Event(&y, 0);
 }

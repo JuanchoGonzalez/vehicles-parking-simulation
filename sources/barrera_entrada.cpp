@@ -35,8 +35,7 @@ void barrera_entrada::dext(Event x, double t) {
 	if (x.port == 0){
 		b = true;
 		int tiempo_entrada = rng.IRandomX(1, 3);
-		printLog("Permitiendo entrada... el auto tarda en cruzar: %d \n", tiempo_entrada);
-		printLog("Tiempo actual: %f \n", t);
+		printLog("Barrera Entrada: se permitio la entrada, el auto tarda en cruzar %d unidades. Deberia entrar en: %f + 4 + %d + 4\n", tiempo_entrada, t, tiempo_entrada);
 		sigma = 4 + tiempo_entrada + 4;
 	} else if (x.port == 1) {
 		b = false;
@@ -44,7 +43,7 @@ void barrera_entrada::dext(Event x, double t) {
 		while (tiempo_salida == 0) {
 			tiempo_salida = rng.IRandomX(0, 2);
 		}
-		printLog("Rechazando entrada... el auto tarda en irse: %d \n", tiempo_salida);
+		printLog("Barrera Entrada: se rechazo la entrada, el auto tarda en irse %d unidades. Tiempo actual: %f \n", tiempo_salida, t);
 		sigma = tiempo_salida;
 	}
 }
@@ -59,17 +58,14 @@ Event barrera_entrada::lambda(double t) {
 
 	if (b) {
 		vehiculoIngreso = 1.0;
-		salidas[0] = (Event(&vehiculoIngreso, 0)); // puerto 0 para vehiculoIngreso
-		salidas[1] = (Event(&finBarrera, 1)); // puerto 0 para fin de barrera
-		printLog("Vehiculo ingresando a la barrera...\n");
-		printLog("Contenido del arreglo salidas:\n");
-		for (int i = 0; i < 2; ++i) {
-			double* val = static_cast<double*>(salidas[i].value);
-			printLog("salidas[%d]: value=%f\n", i, val ? *val : -1.0);
-		}
+		salidas = std::make_pair(vehiculoIngreso, finBarrera);
+		printLog("Barrera Entrada: como se permitio la entrada, el vehiculo ingreso en t = %f \n", t);
+		printLog("	Contenido de la tupla salidas:\n");
+		printLog("	salidas.first: vehiculoIngreso = %f\n", salidas.first);
+		printLog("	salidas.second: finBarrera =%f\n", salidas.second);
 		return Event(&salidas, 0);
 	}else {
-		printLog("La barrera termino...\n");
+		printLog("Barrera Entrada: como se rechazo la entrada, el vehiculo se fue en t = %f \n", t);
 		return Event(&finBarrera, 1); // puerto 1 para fin de barrera
 	}
 }

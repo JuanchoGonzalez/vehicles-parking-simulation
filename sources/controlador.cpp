@@ -36,7 +36,7 @@ void controlador::dext(Event x, double t) {
 		while (tiempo_respuesta == 0) {
 			tiempo_respuesta = rng.IRandomX(0,3);
 		}
-		printLog("Hay lugar. PE libre. El controlador tarda en responder: %d \n", tiempo_respuesta);
+		printLog("Controlador: Hay lugar. PE libre. El controlador tarda en responder: %d \n", tiempo_respuesta);
 		sigma = tiempo_respuesta;
 	}else if(x.port == 0 && c >= 30.0) {
 		b = false;
@@ -44,7 +44,7 @@ void controlador::dext(Event x, double t) {
 		while (tiempo_respuesta == 0) {
 			tiempo_respuesta = rng.IRandomX(0,3);
 		}
-		printLog("No hay lugar. El controlador tarda en responder: %d \n", tiempo_respuesta);
+		printLog("Controlador: No hay lugar. El controlador tarda en responder: %d \n", tiempo_respuesta);
 		sigma = tiempo_respuesta;
 	}else if(x.port == 1 && !b2) {
 		b2 = true;
@@ -52,7 +52,7 @@ void controlador::dext(Event x, double t) {
 		while (tiempo_respuesta == 0) {
 			tiempo_respuesta = rng.IRandomX(0,3);
 		}
-		printLog("Vehiculo quiere salir. El controlador tarda en responder: %d \n", tiempo_respuesta);
+		printLog("Controlador: Vehiculo quiere salir. El controlador tarda en responder: %d \n", tiempo_respuesta);
 		sigma = tiempo_respuesta;
 	}else if(x.port == 2) {
 		b = false;
@@ -71,12 +71,15 @@ Event controlador::lambda(double t) {
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
 	if (b2) {
+		printLog("Controlador: Se permitio la salida en t = %f \n", t);
 		permitirSalida = 2.0;
 		return Event(&permitirSalida, 2);
 	} else if (b) {
+		printLog("Controlador: Se permitio la entrada en t = %f \n", t);
 		permitirEntrada = 0.0;
 		return Event(&permitirEntrada,0);
 	} else {
+		printLog("Controlador: Se denego la entrada en t = %f \n", t);
 		denegarEntrada = 1.0;
 		return Event(&denegarEntrada, 1);
 	}
