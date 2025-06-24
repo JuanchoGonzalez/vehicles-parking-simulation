@@ -22,9 +22,11 @@ void sensor_entrada::dint(double t) {
         l.pop();
         b = true;
         sigma = 1.0;
+        printLog("Sensor: desencolando auto, quedan %zu en cola, t=%f\n", l.size(), t);
     } else {
         b = false;
         sigma = infinity;
+        printLog("Sensor: cola vacía, proceso libre, t=%f\n", t);
     }
 }
 void sensor_entrada::dext(Event x, double t) {
@@ -33,15 +35,21 @@ void sensor_entrada::dext(Event x, double t) {
 //     'x.value' is the value (pointer to void)
 //     'x.port' is the port number
 //     'e' is the time elapsed since last transition
-    if (x.port == 0 && !b){
+    if (!b) { // pe libre
+        if (x.port == 0) {
+            b = true;
+            sigma = 1.0;
+        } else {
+            b = false;
+            sigma = infinity;
+        }
+    } else if (x.port == 1) { // pe ocupado
         b = true;
-        sigma = 1.0;
-    } else if (x.port == 0 && b) {
-        double* valor = static_cast<double*>(x.value); //value es de tipo void hay que castear si o si
+        sigma -= e;
+    } else {
+        double* valor = static_cast<double*>(x.value); // value es de tipo void, hay que castear sí o sí
         l.push(*valor);
-    } else if (x.port == 1) {
-        b = false;
-        sigma = 1.0;
+        sigma -= e;
     }
 }
 Event sensor_entrada::lambda(double t) {
@@ -50,7 +58,7 @@ Event sensor_entrada::lambda(double t) {
 //where:
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
-    detectarVehiculo = 1.0; // si es 1.0 es xq llego un vehiculo(puede o no ir a la cola)
+    detectarVehiculo = 0.0; // si es 0.0 es xq llego un vehiculo(puede o no ir a la cola)
     return Event(&detectarVehiculo, 0);
 }
 void sensor_entrada::exit() {

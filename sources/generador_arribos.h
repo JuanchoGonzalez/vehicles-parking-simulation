@@ -19,7 +19,7 @@ double r;
 CRandomMersenne rng;
 double y;
 public:
-	generador_arribos(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};
+	generador_arribos(const char *n): Simulator(n), rng(42) {};
 	void init(double, ...);
 	double ta(double t);
 	void dint(double);

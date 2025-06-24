@@ -34,13 +34,18 @@ void barrera_entrada::dext(Event x, double t) {
 //     'e' is the time elapsed since last transition
 	if (x.port == 0){
 		b = true;
-		sigma = 4 + rng.IRandomX(1, 3) + 4;
+		int tiempo_entrada = rng.IRandomX(1, 3);
+		printLog("Permitiendo entrada... el auto tarda en cruzar: %d \n", tiempo_entrada);
+		printLog("Tiempo actual: %f \n", t);
+		sigma = 4 + tiempo_entrada + 4;
 	} else if (x.port == 1) {
 		b = false;
-		sigma = rng.IRandomX(0, 2);
-		while (sigma == 0) {
-			sigma = rng.IRandomX(0, 2);
+		int tiempo_salida = rng.IRandomX(0, 2);
+		while (tiempo_salida == 0) {
+			tiempo_salida = rng.IRandomX(0, 2);
 		}
+		printLog("Rechazando entrada... el auto tarda en irse: %d \n", tiempo_salida);
+		sigma = tiempo_salida;
 	}
 }
 
@@ -55,9 +60,16 @@ Event barrera_entrada::lambda(double t) {
 	if (b) {
 		vehiculoIngreso = 1.0;
 		salidas[0] = (Event(&vehiculoIngreso, 0)); // puerto 0 para vehiculoIngreso
-		salidas[1] = (Event(&finBarrera, 1)); // puerto 1 para fin de barrera
+		salidas[1] = (Event(&finBarrera, 1)); // puerto 0 para fin de barrera
+		printLog("Vehiculo ingresando a la barrera...\n");
+		printLog("Contenido del arreglo salidas:\n");
+		for (int i = 0; i < 2; ++i) {
+			double* val = static_cast<double*>(salidas[i].value);
+			printLog("salidas[%d]: value=%f\n", i, val ? *val : -1.0);
+		}
 		return Event(&salidas, 0);
 	}else {
+		printLog("La barrera termino...\n");
 		return Event(&finBarrera, 1); // puerto 1 para fin de barrera
 	}
 }

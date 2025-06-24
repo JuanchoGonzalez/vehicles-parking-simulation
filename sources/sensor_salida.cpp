@@ -33,10 +33,10 @@ void sensor_salida::dext(Event x, double t) {
 //     'x.value' is the value (pointer to void)
 //     'x.port' is the port number
 //     'e' is the time elapsed since last transition
-    if (x.port == 0 && l.empty() && !b) {
+    if (x.port == 0 && !b) {
         b = true;
         sigma = 1.0;
-    } else if (x.port == 0 && !l.empty() && b) {
+    } else if (x.port == 0 && b) {
         double* valor = static_cast<double*>(x.value);
         l.push(*valor);
     } else if (x.port == 1) {
