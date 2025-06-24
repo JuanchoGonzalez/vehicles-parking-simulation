@@ -26,7 +26,7 @@ Coupled
             Description = 
             Graphic
                 {
-                Position = -4830 ; -4980
+                Position = -8355 ; -6255
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -44,7 +44,7 @@ Coupled
             Description = Save the values (event,t) in a file.
             Graphic
                 {
-                Position = 570 ; -3705
+                Position = -5205 ; -8580
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -63,7 +63,7 @@ Coupled
             Description = Plot input signal using GnuPlot
             Graphic
                 {
-                Position = 720 ; -5160
+                Position = -5130 ; -7560
                 Dimension = 675 ; 720
                 Direction = Right
                 Color = 15
@@ -88,7 +88,7 @@ Coupled
             Description = Atomic DEVS model
             Graphic
                 {
-                Position = -2280 ; -4305
+                Position = -6030 ; -5505
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -101,12 +101,12 @@ Coupled
         Atomic
             {
             Name = BarreraEntrada
-            Ports = 2 ; 1
+            Ports = 2 ; 2
             Path = sources/barrera_entrada.h
             Description = Atomic DEVS model
             Graphic
                 {
-                Position = -4830 ; -3030
+                Position = -7155 ; -2580
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -124,7 +124,7 @@ Coupled
             Description = Save the values (event,t) in a file.
             Graphic
                 {
-                Position = -2805 ; -5730
+                Position = -7005 ; -8055
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -143,7 +143,7 @@ Coupled
             Description = Atomic DEVS model
             Graphic
                 {
-                Position = -705 ; -6330
+                Position = -330 ; -6705
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -156,13 +156,31 @@ Coupled
         Atomic
             {
             Name = BarreraSalida
-            Ports = 1 ; 2
+            Ports = 1 ; 1
             Path = sources/barrera_salida.h
             Description = Atomic DEVS model
             Graphic
                 {
-                Position = -2805 ; -7230
+                Position = -1380 ; -4080
                 Dimension = 675 ; 675
+                Direction = Right
+                Color = 15
+                Icon = None
+                }
+            Parameters
+                {
+                }
+            }
+        Atomic
+            {
+            Name = Controlador
+            Ports = 4 ; 3
+            Path = sources/controlador.h
+            Description = Atomic DEVS model
+            Graphic
+                {
+                Position = -3555 ; -5325
+                Dimension = 675 ; 750
                 Direction = Right
                 Color = 15
                 Icon = None
@@ -175,36 +193,113 @@ Coupled
             {
             Source = Cmp ;  4 ;  1 ; 0
             Sink = Cmp ;  3 ;  1 ; -1
-            PointX = -1500 ; -900 ; -900 ; 585
-            PointY = -3975 ; -3975 ; -4800 ; -4800
+            PointX = -5250 ; -5265 ; -5265
+            PointY = -5175 ; -5175 ; -7200
             }
         Line
             {
             Source = Cmp ;  4 ;  1 ; 0
             Sink = Cmp ;  2 ;  1 ; -1
-            PointX = -1500 ; -900 ; -900 ; 435
-            PointY = -3975 ; -3975 ; -3375 ; -3375
+            PointX = -5250 ; -5250 ; -5340 ; -5340
+            PointY = -5175 ; -5175 ; -5175 ; -8250
             }
         Line
             {
             Source = Cmp ;  1 ;  1 ; 0
             Sink = Cmp ;  4 ;  1 ; -1
-            PointX = -4050 ; -3150 ; -3150 ; -2415
-            PointY = -4650 ; -4650 ; -4125 ; -4125
-            }
-        Line
-            {
-            Source = Cmp ;  5 ;  1 ; 0
-            Sink = Cmp ;  4 ;  2 ; -1
-            PointX = -4050 ; -3150 ; -3150 ; -2415
-            PointY = -2700 ; -2700 ; -3825 ; -3825
+            PointX = -7575 ; -6165 ; -6165
+            PointY = -5925 ; -5925 ; -5325
             }
         Line
             {
             Source = Cmp ;  1 ;  1 ; 0
             Sink = Cmp ;  6 ;  1 ; -1
-            PointX = -4050 ; -2940 ; -2940
-            PointY = -4650 ; -4650 ; -5400
+            PointX = -7575 ; -7140 ; -7140
+            PointY = -5925 ; -5925 ; -7725
+            }
+        Line
+            {
+            Source = Cmp ;  5 ;  1 ; 0
+            Sink = Cmp ;  5 ;  1 ; 0
+            PointX = -6375 ; -6375 ; -6375
+            PointY = -2400 ; -2400 ; -2400
+            }
+        Line
+            {
+            Source = Cmp ;  8 ;  1 ; 0
+            Sink = Cmp ;  7 ;  2 ; -1
+            PointX = -600 ; -600 ; -465 ; -465
+            PointY = -3750 ; -3750 ; -3750 ; -6225
+            }
+        Line
+            {
+            Source = Cmp ;  5 ;  1 ; 0
+            Sink = Cmp ;  9 ;  3 ; -1
+            PointX = -6375 ; -4425 ; -4425 ; -3690
+            PointY = -2400 ; -2400 ; -4875 ; -4875
+            }
+        Line
+            {
+            Source = Cmp ;  8 ;  1 ; 0
+            Sink = Cmp ;  9 ;  4 ; -1
+            PointX = -600 ; 0 ; 0 ; -4050 ; -4050 ; -3690
+            PointY = -3750 ; -3750 ; -2400 ; -2400 ; -4725 ; -4725
+            }
+        Line
+            {
+            Source = Cmp ;  7 ;  1 ; 0
+            Sink = Cmp ;  9 ;  2 ; -1
+            PointX = 450 ; 1125 ; 1125 ; -4050 ; -4050 ; -3690
+            PointY = -6375 ; -6375 ; -7425 ; -7425 ; -5025 ; -5025
+            }
+        Line
+            {
+            Source = Cmp ;  4 ;  1 ; 0
+            Sink = Cmp ;  9 ;  1 ; -1
+            PointX = -5250 ; -5250 ; -3690
+            PointY = -5175 ; -5175 ; -5175
+            }
+        Line
+            {
+            Source = Cmp ;  9 ;  1 ; 0
+            Sink = NoC ;  0 ; 0 ; 0
+            PointX = -2775 ; -2775 ; 2325 ; 2325
+            PointY = -5175 ; -5175 ; -5175 ; -5100
+            }
+        Line
+            {
+            Source = Cmp ;  9 ;  1 ; 0
+            Sink = Cmp ;  5 ;  1 ; -1
+            PointX = -2775 ; 1275 ; 1275 ; -7725 ; -7725 ; -7290
+            PointY = -5175 ; -5175 ; -750 ; -750 ; -2400 ; -2400
+            }
+        Line
+            {
+            Source = Cmp ;  9 ;  2 ; 0
+            Sink = Cmp ;  5 ;  2 ; -1
+            PointX = -2775 ; 1050 ; 1050 ; -7500 ; -7500 ; -7290
+            PointY = -4950 ; -4950 ; -900 ; -900 ; -2100 ; -2100
+            }
+        Line
+            {
+            Source = Cmp ;  5 ;  1 ; 0
+            Sink = Cmp ;  4 ;  2 ; -1
+            PointX = -6375 ; -6375 ; -6165
+            PointY = -2400 ; -5025 ; -5025
+            }
+        Line
+            {
+            Source = Cmp ;  5 ;  2 ; 0
+            Sink = Cmp ;  4 ;  2 ; -1
+            PointX = -6375 ; -5850 ; -5850 ; -6825 ; -6825 ; -6165
+            PointY = -2100 ; -2100 ; -4125 ; -4125 ; -5025 ; -5025
+            }
+        Line
+            {
+            Source = Cmp ;  9 ;  3 ; 0
+            Sink = Cmp ;  8 ;  1 ; -1
+            PointX = -2775 ; -2775 ; -2100 ; -2100 ; -1515
+            PointY = -4725 ; -4725 ; -4725 ; -3750 ; -3750
             }
         }
     }
