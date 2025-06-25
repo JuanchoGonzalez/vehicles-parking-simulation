@@ -24,6 +24,8 @@ double barrera_entrada::ta(double t) {
 void barrera_entrada::dint(double t) {
 	b = false;
 	sigma = infinity;
+
+	// estos valores xq el vehiculo pasa de uno en uno.
 }
 
 void barrera_entrada::dext(Event x, double t) {

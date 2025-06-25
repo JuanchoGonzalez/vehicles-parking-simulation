@@ -30,7 +30,7 @@ void controlador::dext(Event x, double t) {
 //     'x.value' is the value (pointer to void)
 //     'x.port' is the port number
 //     'e' is the time elapsed since last transition
-	if (x.port == 0 && c < 30.0 and !b) {
+	if (x.port == 0 && c < 40.0 and !b) {
 		b = true;
 		int tiempo_respuesta = rng.IRandomX(0,3);
 		while (tiempo_respuesta == 0) {
@@ -38,7 +38,7 @@ void controlador::dext(Event x, double t) {
 		}
 		printLog("Controlador: Hay lugar. PE libre. El controlador tarda en responder: %d \n", tiempo_respuesta);
 		sigma = tiempo_respuesta;
-	}else if(x.port == 0 && c >= 30.0) {
+	}else if(x.port == 0 && c >= 40.0) {
 		b = false;
 		int tiempo_respuesta = rng.IRandomX(0,3);
 		while (tiempo_respuesta == 0) {
@@ -76,6 +76,7 @@ Event controlador::lambda(double t) {
 		return Event(&permitirSalida, 2);
 	} else if (b) {
 		printLog("Controlador: Se permitio la entrada en t = %f \n", t);
+		printLog("Vehiculo ingresando al estacionamiento en tiempo t = %f \n", t);
 		permitirEntrada = 0.0;
 		return Event(&permitirEntrada,0);
 	} else {
