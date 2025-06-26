@@ -70,6 +70,8 @@ Event estacionamiento::lambda(double t) {
 //where:
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
+    printLog("--------------------------------");
+    printLog("Vehiculo quiere salir en t = %f\n", t);
     vehiculoQuiereSalir = 1.0;
     return Event(&vehiculoQuiereSalir, 0);
 }

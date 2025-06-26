@@ -50,6 +50,7 @@ Event sensor_salida::lambda(double t) {
 //where:
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
+    printLog("Sensor salida: Se solicita salida en t = %f\n", t);
     solicitarSalida = 1.0; // hace referencia a la señal
     return Event(&solicitarSalida, 0);
 }

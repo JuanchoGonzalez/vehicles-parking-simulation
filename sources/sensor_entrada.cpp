@@ -12,6 +12,7 @@ void sensor_entrada::init(double t,...) {
 //	%Type% is the parameter type
     b = false;
     sigma = infinity;
+    id = &id_actual;
 }
 double sensor_entrada::ta(double t) {
 //This function returns a double.
@@ -21,7 +22,8 @@ void sensor_entrada::dint(double t) {
     printLog("Sensor dint: INICIO | t=%f | b=%d | sigma=%f | cola=%zu\n", t, b, sigma, l.size());
     if (!l.empty()) {
         // CASO 1 DEV
-        l.pop();
+        //id_actual = l.front();
+        //l.pop();
         sigma = infinity;
         printLog("Sensor dint: esperando, quedan %zu en cola, b=%d\n", l.size(), b);
     } else {
@@ -52,16 +54,16 @@ void sensor_entrada::dext(Event x, double t) {
             b = true;
             sigma = 1.0;
             printLog("Sensor dext: PE ahora está ocupado. b=%d\n", b);
+            id_actual = *static_cast<double*>(x.value);
         } else { // Proceso de entrada ocupado
             // CASO else else(tercero) if
             printLog("Sensor dext: PE ocupado y llegó por puerto 0 en t = %f\n", t);
             double* valor = static_cast<double*>(x.value);
             l.push(*valor);
-            // if (sigma != infinity){
-            printLog("SIGMA: %f\n", sigma);
-            sigma -= e;
-            printLog("SIGMA - e: %f\n", sigma);
-            // }
+            printLog("se agrega a la cola el vehiculo ID = %f\n", *valor);
+            if (sigma != infinity){ // para obviar un monton de casos
+                sigma -= e;
+            }
             printLog("Sensor dext: Llegó a la cola. b=%d\n", b);
         }
     } else if (x.port == 1) { // Evento por el puerto 1 (barrera de entrada), implicitamente b es true
@@ -71,13 +73,13 @@ void sensor_entrada::dext(Event x, double t) {
             sigma = infinity;
             printLog("Sensor dext: PE ahora está esperando. b=%d\n", b);
         } else { // !l.empty()
-            // podriamos hacer aca b=false y en el dint caso1 poner b=true, pero quedaria mal si viene justo un vehiculo
-            // de afuera y ve el pe=libre y se manda. y estariamos dandole prioridad a el que viene de afuera que al de la cola
-
             // CASO else else(segundo) if
             printLog("Sensor dext: PE ocupado y llegó por puerto 1 en t = %f\n", t);
             sigma = 1.0;
             printLog("Sensor dext: PE sigue ocupado. b=%d\n", b);
+            id_actual = l.front(); // Tomamos el primer elemento de la cola
+            l.pop(); // y lo sacamos de la cola
+            printLog("ID AHORA SI = %f\n", *id);
         }
     }
     printLog("Sensor dext: FIN | t=%f | b=%d | sigma=%f | cola=%zu\n", t, b, sigma, l.size());
@@ -88,9 +90,9 @@ Event sensor_entrada::lambda(double t) {
 //where:
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
-    detectarVehiculo = 0.0; // si es 0.0 es xq llego un vehiculo
-    printLog("Sensor lambda: detectando vehiculo en t = %f \n", t);
-    return Event(&detectarVehiculo, 0);
+    detectarVehiculo = id;
+    printLog("Sensor lambda: detectando vehiculo ID = %f en t = %f \n", *id, t);
+    return Event(detectarVehiculo, 0);
 }
 void sensor_entrada::exit() {
     //Code executed at the end of the simulation.

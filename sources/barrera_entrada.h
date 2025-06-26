@@ -19,9 +19,11 @@ bool b;
 double sigma;
 CRandomMersenne rng;
 static const double infinity;
-std::pair<double, double> salidas;
+std::pair<double*, double> salidas;
 double finBarrera;
-double vehiculoIngreso;
+double* vehiculoIngreso;
+double* id;
+double id_actual;
 
 public:
 	barrera_entrada(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};

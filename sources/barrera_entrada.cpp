@@ -14,6 +14,7 @@ void barrera_entrada::init(double t,...) {
 //	%Type% is the parameter type
 	b = false;
 	sigma = infinity;
+	id = &id_actual;
 }
 
 double barrera_entrada::ta(double t) {
@@ -37,7 +38,9 @@ void barrera_entrada::dext(Event x, double t) {
 	if (x.port == 0){
 		b = true;
 		int tiempo_entrada = rng.IRandomX(1, 3);
-		printLog("Barrera Entrada: se permitio la entrada, el auto tarda en cruzar %d unidades. Deberia entrar en: %f + 4 + %d + 4\n", tiempo_entrada, t, tiempo_entrada);
+		printLog("x.value = %f\n", *static_cast<double*>(x.value));
+		id_actual = *static_cast<double*>(x.value);
+		printLog("Barrera Entrada: se permitio la entrada de vehiculo ID = %f, el auto tarda en cruzar %d unidades. Deberia entrar en: %f + 4 + %d + 4\n", id_actual, tiempo_entrada, t, tiempo_entrada);
 		sigma = 4 + tiempo_entrada + 4;
 	} else if (x.port == 1) {
 		b = false;
@@ -45,7 +48,8 @@ void barrera_entrada::dext(Event x, double t) {
 		while (tiempo_salida == 0) {
 			tiempo_salida = rng.IRandomX(0, 2);
 		}
-		printLog("Barrera Entrada: se rechazo la entrada, el auto tarda en irse %d unidades. Tiempo actual: %f \n", tiempo_salida, t);
+		id = static_cast<double*>(x.value);
+		printLog("Barrera Entrada: se rechazo la entrada de vehiculo ID = %f, el auto tarda en irse %d unidades. Tiempo actual: %f \n",*id,  tiempo_salida, t);
 		sigma = tiempo_salida;
 	}
 }
@@ -59,11 +63,11 @@ Event barrera_entrada::lambda(double t) {
 	finBarrera = 1.0;
 
 	if (b) {
-		vehiculoIngreso = 1.0;
+		vehiculoIngreso = &id_actual;
 		salidas = std::make_pair(vehiculoIngreso, finBarrera);
-		printLog("Barrera Entrada: como se permitio la entrada, el vehiculo ingreso en t = %f \n", t);
+		printLog("Barrera Entrada: como se permitio la entrada, el vehiculo con ID = %f ingreso en t = %f \n",id_actual, t);
 		printLog("	Contenido de la tupla salidas:\n");
-		printLog("	salidas.first: vehiculoIngreso = %f\n", salidas.first);
+		printLog("	salidas.first: vehiculoIngreso = %f\n", *salidas.first);
 		printLog("	salidas.second: finBarrera =%f\n", salidas.second);
 		return Event(&salidas, 0);
 	}else {

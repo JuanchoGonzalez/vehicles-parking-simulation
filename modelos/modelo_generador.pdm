@@ -174,13 +174,13 @@ Coupled
         Atomic
             {
             Name = Controlador
-            Ports = 4 ; 3
+            Ports = 4 ; 4
             Path = sources/controlador.h
             Description = Atomic DEVS model
             Graphic
                 {
-                Position = -3555 ; -5325
-                Dimension = 675 ; 750
+                Position = -3555 ; -5280
+                Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
                 Icon = None
@@ -308,7 +308,7 @@ Coupled
             Source = Cmp ;  9 ;  2 ; 0
             Sink = Cmp ;  5 ;  2 ; -1
             PointX = -2775 ; 1050 ; 1050 ; -8925 ; -8925 ; -8490
-            PointY = -4950 ; -4950 ; -900 ; -900 ; -2850 ; -2850
+            PointY = -5025 ; -5025 ; -900 ; -900 ; -2850 ; -2850
             }
         Line
             {
@@ -329,14 +329,7 @@ Coupled
             Source = Cmp ;  9 ;  3 ; 0
             Sink = Cmp ;  8 ;  1 ; -1
             PointX = -2775 ; -2100 ; -2100 ; -1515
-            PointY = -4725 ; -4725 ; -3750 ; -3750
-            }
-        Line
-            {
-            Source = Cmp ;  9 ;  1 ; 0
-            Sink = Cmp ;  10 ;  1 ; -1
-            PointX = -2775 ; -2640 ; -2640
-            PointY = -5175 ; -5175 ; -6525
+            PointY = -4875 ; -4875 ; -3750 ; -3750
             }
         Line
             {
@@ -358,6 +351,13 @@ Coupled
             Sink = Cmp ;  11 ;  1 ; -1
             PointX = -7575 ; -4965 ; -4965
             PointY = -2850 ; -2850 ; 0
+            }
+        Line
+            {
+            Source = Cmp ;  9 ;  4 ; 0
+            Sink = Cmp ;  10 ;  1 ; -1
+            PointX = -2775 ; -2700 ; -2700 ; -2640
+            PointY = -4725 ; -4725 ; -6525 ; -6525
             }
         }
     }

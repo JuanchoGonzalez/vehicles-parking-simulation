@@ -17,10 +17,15 @@ class controlador: public Simulator {
 // output variables
 // and parameters
 
-bool b,b2;
-double sigma,c, permitirSalida, permitirEntrada, denegarEntrada;
+bool b,b2,ingreso;
+double sigma, c , permitirSalida;
 CRandomMersenne rng;
 static const double infinity;
+double* id;
+double* vehiculoIngresando;
+double* permitirEntrada;
+double* denegarEntrada;
+double id_actual;
 
 public:
 	controlador(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};

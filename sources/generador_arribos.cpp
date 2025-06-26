@@ -15,7 +15,7 @@ void generador_arribos::init(double t,...) {
     while (r <= 0.0 || r >= 1.0) {
         r = rng.Random();
     }
-    sigma = -(1.0/0.025) * log(1 - r);
+    sigma = -(1.0/0.1) * log(1 - r);
 }
 double generador_arribos::ta(double t) {
 //This function returns a double.
@@ -27,7 +27,7 @@ void generador_arribos::dint(double t) {
     while (r <= 0.0 || r >= 1.0) {
         r = rng.Random();
     }
-    sigma = -(1.0/0.025) * log(1 - r);
+    sigma = -(1.0/0.1) * log(1 - r);
 }
 void generador_arribos::dext(Event x, double t) {
 //The input event is in the 'x' variable.
