@@ -15,53 +15,53 @@ void estacionamiento::init(double t,...) {
 //      %Name% is the parameter name
 //	%Type% is the parameter type
     sigma = infinity;
+    id = id_actual;
 }
 double estacionamiento::ta(double t) {
 //This function returns a double.
     return sigma;
 }
 void estacionamiento::dint(double t) {
-    l.pop();
+    printLog("Estacionamiento dint ");
+    l.pop_front(); // saco el primer vehiculo de la cola    
     if (l.empty()) {
         sigma = infinity;
     } else {
-        sigma = l.front().second;
+        printLog("sigma estacionamiento");
+        sigma = l.front().second - t;
     }
 }
-struct PairSecondComparator {
-    bool operator()(const std::pair<double, double>& a, const std::pair<double, double>& b) const {
-        return a.second < b.second;
-    }
-};
 void estacionamiento::dext(Event x, double t) {
 //The input event is in the 'x' variable.
 //where:
 //     'x.value' is the value (pointer to void)
 //     'x.port' is the port number
 //     'e' is the time elapsed since last transition
-    std::queue<std::pair<double, double> > l_prima;
-    while (!l.empty()) {
-        std::pair<double, double> actual = l.front();
-        l.pop();
-        actual.second -= e;
-        l_prima.push(actual);
-    }
-    l = l_prima; // hasta aca ya tengo la lista con los tiempos actualizados
-    double* id = static_cast<double*>(x.value);
-    double tiempo = rng.IRandomX(120, 300);
-    std::pair<double, double> vehiculo = std::make_pair(*id, tiempo);
-    l.push(vehiculo); // acabamos de agregar el vehiculo entrante a la lista
-    // Extraer todos los elementos de la cola a un vector
-    std::vector<std::pair<double, double> > temp_vec;
-    while (!l.empty()) {
-        temp_vec.push_back(l.front());
-        l.pop();
-    }
-    // Ordenar el vector por el segundo elemento de la tupla (de menor a mayor)
-    std::sort(temp_vec.begin(), temp_vec.end(), PairSecondComparator());
-    // Volver a cargar la cola con los elementos ordenados
-    for (size_t i = 0; i < temp_vec.size(); ++i) {
-        l.push(temp_vec[i]);
+    id = *static_cast<double*>(x.value);
+    printLog("id: %f\n", id);
+    double random = rng.IRandomX(120, 300); // genero un tiempo para el vehiculo entrante
+    printLog("random: %f\n", random);
+    printLog("t: %f\n", t);
+    double tiempo = random + t;
+    std::pair<double, double> vehiculo = std::make_pair(id, tiempo);
+    printLog("Vehiculo %f entro en  random + t = %f\n", id, tiempo);
+    if(l.empty()) {
+        l.push_back(vehiculo); // si esta sola pushea el vehiculo
+        sigma = tiempo - t;
+        printLog("sigma if: %f\n", sigma);
+    }else {
+        printLog("l.front().second() = %f\n", l.front().second);
+        sigma = l.front().second - t; // el tiempo de salida es el del primer vehiculo de la cola
+        printLog("sigma else: %f\n", sigma);
+
+        std::deque<std::pair<double, double> >::iterator it;
+        for (it = l.begin(); it != l.end(); it++) { // insertando ordenado
+            if (vehiculo.second < it->second) { // una vez que encuentra el lugar del vehiculo que entro lo inserta a la cola
+                l.insert(it, vehiculo);
+                break;
+            }
+        }
+
     }
 }
 Event estacionamiento::lambda(double t) {
@@ -70,9 +70,9 @@ Event estacionamiento::lambda(double t) {
 //where:
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
-    printLog("--------------------------------");
-    printLog("Vehiculo quiere salir en t = %f\n", t);
-    vehiculoQuiereSalir = 1.0;
+    id_actual = l.front().first; // el id del vehiculo que quiere salir es el primero de la col
+    printLog("Vehiculo quiere salir en t = %f con ID = %f \n", t, id_actual);
+    vehiculoQuiereSalir = id_actual;
     return Event(&vehiculoQuiereSalir, 0);
 }
 void estacionamiento::exit() {

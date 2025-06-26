@@ -16,11 +16,12 @@ class estacionamiento: public Simulator {
 // output variables
 // and parameters
 
-std::queue<std::pair<double, double> > l;
+std::deque<std::pair<double, double> > l;
 double sigma;
 CRandomMersenne rng;
 static const double infinity;
 double vehiculoQuiereSalir;
+double id, id_actual;
 
 public:
 	estacionamiento(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};

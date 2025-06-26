@@ -51,6 +51,7 @@ void controlador::dext(Event x, double t) {
 		}
 		printLog("Controlador: No hay lugar. El controlador tarda en responder: %d \n", tiempo_respuesta);
 		sigma = tiempo_respuesta;
+		id_actual = *static_cast<double*>(x.value);
 	}else if(x.port == 1 && !b2) {
 		b2 = true;
 		int tiempo_respuesta = rng.IRandomX(0,3);
