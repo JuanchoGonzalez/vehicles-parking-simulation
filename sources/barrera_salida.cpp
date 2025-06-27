@@ -14,6 +14,7 @@ void barrera_salida::init(double t,...) {
 //	%Type% is the parameter type
     b = false;
 	sigma = infinity;
+    id = &id_actual;
 }
 double barrera_salida::ta(double t) {
 //This function returns a double.
@@ -31,7 +32,11 @@ void barrera_salida::dext(Event x, double t) {
 //     'e' is the time elapsed since last transition
     if (x.port == 0) {
         b = true;
-        sigma = 4 + rng.IRandomX(1, 3) + 4;
+        double r = rng.Random();
+        double tiempo_salida = 1 + r * (3 - 1);
+        id_actual = *static_cast<double*>(x.value);
+        sigma = 4 + tiempo_salida + 4;
+        printLog("Barrera Salida: se permitio la salida de vehiculo ID = %f, el auto tarda en cruzar %d . Deberia salir en: %f + 4 + %d + 4\n", id_actual, tiempo_salida, t, tiempo_salida);
     }
 }
 Event barrera_salida::lambda(double t) {
@@ -41,12 +46,12 @@ Event barrera_salida::lambda(double t) {
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
     finBarrera = 1.0;
-	vehiculoHaSalido = 1.0;
-	salidas[0] = (Event(&vehiculoHaSalido, 0)); // puerto 0 para vehiculoHaSalido
-	salidas[1] = (Event(&finBarrera, 1)); // puerto 1 para fin de barrera
-	return Event(&salidas, 0);
+    vehiculoHaSalido = &id_actual;
+    salidas = std::make_pair(vehiculoHaSalido, finBarrera);
+    printLog("Barrera Salida: se permitio la salida, el vehiculo con ID = %f salio en t = %f \n",id_actual, t);
+    printLog("	Tupla de salidas que va al controlador: (ID: %f , finBarrera: %f)\n", *salidas.first, salidas.second);
+    return Event(&salidas, 0);
 }
 void barrera_salida::exit() {
 //Code executed at the end of the simulation.
-
 }

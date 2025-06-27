@@ -9,6 +9,7 @@
 #include "ctime"
 #include "../random/lib/randomc.h"
 #include "../random/lib/stocc.h"
+#include <utility>
 
 class barrera_salida: public Simulator { 
 // Declare the state,
@@ -19,9 +20,11 @@ bool b;
 double sigma;
 CRandomMersenne rng;
 static const double infinity;
-Event salidas[2];
+std::pair<double*, double> salidas;
 double finBarrera;
-double vehiculoHaSalido;
+double* vehiculoHaSalido;
+double* id;
+double id_actual;
 
 public:
 	barrera_salida(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};

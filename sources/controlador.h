@@ -17,12 +17,16 @@ class controlador: public Simulator {
 // output variables
 // and parameters
 
-bool b,b2,ingreso;
-double sigma, c , permitirSalida;
+bool b, b2, ingreso, egreso;
+double sigma, c;
+double* permitirSalida;
 CRandomMersenne rng;
 static const double infinity;
 double* id;
+double* id2;
+double id_salida;
 double* vehiculoIngresando;
+double* vehiculoEgresando;
 double* permitirEntrada;
 double* denegarEntrada;
 double id_actual;

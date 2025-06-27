@@ -16,19 +16,15 @@ void barrera_entrada::init(double t,...) {
 	sigma = infinity;
 	id = &id_actual;
 }
-
 double barrera_entrada::ta(double t) {
 //This function returns a double.
 	return sigma;
 }
-
 void barrera_entrada::dint(double t) {
 	b = false;
 	sigma = infinity;
-
 	// estos valores xq el vehiculo pasa de uno en uno.
 }
-
 void barrera_entrada::dext(Event x, double t) {
 //The input event is in the 'x' variable.
 //where:
@@ -37,20 +33,21 @@ void barrera_entrada::dext(Event x, double t) {
 //     'e' is the time elapsed since last transition
 	if (x.port == 0){
 		b = true;
-		int tiempo_entrada = rng.IRandomX(1, 3);
-		printLog("x.value = %f\n", *static_cast<double*>(x.value));
+		double r = rng.Random();
+		double tiempo_entrada = 1 + r * (3 - 1); 
 		id_actual = *static_cast<double*>(x.value);
-		printLog("Barrera Entrada: se permitio la entrada de vehiculo ID = %f, el auto tarda en cruzar %d unidades. Deberia entrar en: %f + 4 + %d + 4\n", id_actual, tiempo_entrada, t, tiempo_entrada);
 		sigma = 4 + tiempo_entrada + 4;
+		printLog("Barrera Entrada: se permitio la entrada de vehiculo ID = %f, el auto tarda en cruzar %d . Deberia entrar en: %f + 4 + %d + 4\n", id_actual, tiempo_entrada, t, tiempo_entrada);
 	} else if (x.port == 1) {
 		b = false;
-		int tiempo_salida = rng.IRandomX(0, 2);
-		while (tiempo_salida == 0) {
-			tiempo_salida = rng.IRandomX(0, 2);
+		double r = rng.Random();
+		while (r == 0) {
+			r = rng.Random();
 		}
+		double tiempo_salida = 0 + r * (2 - 0);
 		id = static_cast<double*>(x.value);
-		printLog("Barrera Entrada: se rechazo la entrada de vehiculo ID = %f, el auto tarda en irse %d unidades. Tiempo actual: %f \n",*id,  tiempo_salida, t);
 		sigma = tiempo_salida;
+		printLog("Barrera Entrada: se rechazo la entrada de vehiculo ID = %f, el auto tarda en irse %d . Tiempo actual: %f \n",*id,  tiempo_salida, t);
 	}
 }
 
@@ -61,14 +58,11 @@ Event barrera_entrada::lambda(double t) {
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
 	finBarrera = 1.0;
-
 	if (b) {
 		vehiculoIngreso = &id_actual;
 		salidas = std::make_pair(vehiculoIngreso, finBarrera);
 		printLog("Barrera Entrada: como se permitio la entrada, el vehiculo con ID = %f ingreso en t = %f \n",id_actual, t);
-		printLog("	Contenido de la tupla salidas:\n");
-		printLog("	salidas.first: vehiculoIngreso = %f\n", *salidas.first);
-		printLog("	salidas.second: finBarrera =%f\n", salidas.second);
+		printLog("	Tupla de salidas que va al controlador: (ID: %f , finBarrera: %f)\n", *salidas.first, salidas.second);
 		return Event(&salidas, 0);
 	}else {
 		printLog("Barrera Entrada: como se rechazo la entrada, el vehiculo se fue en t = %f \n", t);
@@ -78,5 +72,4 @@ Event barrera_entrada::lambda(double t) {
 
 void barrera_entrada::exit() {
 //Code executed at the end of the simulation.
-	printf("Finalizando barrera_entrada...\n");
 }

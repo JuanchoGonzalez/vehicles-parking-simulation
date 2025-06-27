@@ -16,7 +16,9 @@ class sensor_salida: public Simulator {
 std::queue<double> l;
 bool b;
 double sigma;
-double solicitarSalida;
+double* solicitarSalida;
+double* id;
+double id_actual;
 
 static const double infinity;
 

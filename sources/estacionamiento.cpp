@@ -22,14 +22,17 @@ double estacionamiento::ta(double t) {
     return sigma;
 }
 void estacionamiento::dint(double t) {
-    printLog("Estacionamiento dint ");
+    printLog("Estacionamiento dint: INICIO | t=%f | sigma=%f\n", t, sigma);
     l.pop_front(); // saco el primer vehiculo de la cola    
-    if (l.empty()) {
-        sigma = infinity;
+    if (!l.empty()) {
+        for (std::deque<std::pair<double, double> >::iterator it = l.begin(); it != l.end(); ++it) {
+            it->second -= sigma;
+        }
+        sigma = l.front().second;
     } else {
-        printLog("sigma estacionamiento");
-        sigma = l.front().second - t;
+        sigma = infinity;
     }
+    printLog("Estacionamiento dint: FIN | t=%f | sigma=%f\n", t, sigma);
 }
 void estacionamiento::dext(Event x, double t) {
 //The input event is in the 'x' variable.
@@ -37,31 +40,42 @@ void estacionamiento::dext(Event x, double t) {
 //     'x.value' is the value (pointer to void)
 //     'x.port' is the port number
 //     'e' is the time elapsed since last transition
+    if (!l.empty()) { // lo primero que se hace es actualizar los tiempos de los autos que ya habia
+        printLog("Estacionamiento dext: Actualizando tiempos de los vehiculos en la cola\n");
+        for (std::deque<std::pair<double, double> >::iterator it = l.begin(); it != l.end(); ++it) {
+            it->second -= e;
+        }
+    } else {
+        printLog("Estacionamiento dext: No hay vehiculos en la cola, no hay tiempos para actualizar\n");
+    }
+    // ahora procesamos el vehiculo que esta entrando
     id = *static_cast<double*>(x.value);
-    printLog("id: %f\n", id);
-    double random = rng.IRandomX(120, 300); // genero un tiempo para el vehiculo entrante
-    printLog("random: %f\n", random);
-    printLog("t: %f\n", t);
-    double tiempo = random + t;
-    std::pair<double, double> vehiculo = std::make_pair(id, tiempo);
-    printLog("Vehiculo %f entro en  random + t = %f\n", id, tiempo);
+    printLog("Estacionamiento dext: vehiculo ID = %f\n", id);
+    double r = rng.Random();
+	double tiempo_permanencia = 120 + r * (300 - 120);
+    std::pair<double, double> vehiculo = std::make_pair(id, tiempo_permanencia);
+    printLog("Vehiculo %f va a estar %f dentro del estacionamiento. Sale en %f (tiempo actual + tiempo_permanencia)\n", id, tiempo_permanencia, t + tiempo_permanencia);
     if(l.empty()) {
         l.push_back(vehiculo); // si esta sola pushea el vehiculo
-        sigma = tiempo - t;
-        printLog("sigma if: %f\n", sigma);
+        sigma = tiempo_permanencia;
     }else {
-        printLog("l.front().second() = %f\n", l.front().second);
-        sigma = l.front().second - t; // el tiempo de salida es el del primer vehiculo de la cola
-        printLog("sigma else: %f\n", sigma);
-
         std::deque<std::pair<double, double> >::iterator it;
+        bool insertado = false; // lo q pasaba antes era que si el nuevo auto tenia el mayor tiempo de todos, no se insertaba
         for (it = l.begin(); it != l.end(); it++) { // insertando ordenado
             if (vehiculo.second < it->second) { // una vez que encuentra el lugar del vehiculo que entro lo inserta a la cola
                 l.insert(it, vehiculo);
+                insertado = true;
                 break;
             }
         }
-
+        if (!insertado) {
+            l.push_back(vehiculo); // si no se inserto, lo pushea al final
+        }
+        sigma = l.front().second; // el tiempo de salida es el del primer vehiculo de la cola
+    }
+    printLog("Vehiculos dentro del Estacionaimento:\n");
+    for (std::deque<std::pair<double, double> >::iterator vit = l.begin(); vit != l.end(); ++vit) {
+        printLog("  ID: %f, Tiempo: %f\n", vit->first, vit->second);
     }
 }
 Event estacionamiento::lambda(double t) {
