@@ -13,11 +13,10 @@ class sensor_entrada: public Simulator {
 // and parameters
 
 std::queue<double> l;
-bool b;
+bool estado_sensor_e;
 double sigma;
-double* detectarVehiculo;
-double* id;
-double id_actual;
+double id;
+double aux;
 
 static const double infinity;
 

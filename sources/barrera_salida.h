@@ -16,18 +16,13 @@ class barrera_salida: public Simulator {
 // output variables
 // and parameters
 
-bool b;
-double sigma;
+double sigma, id, r, cruce_vehiculo_s, salida_vehiculo_s;
+bool proc_barrera_s;
 CRandomMersenne rng;
 static const double infinity;
-std::pair<double*, double> salidas;
-double finBarrera;
-double* vehiculoHaSalido;
-double* id;
-double id_actual;
 
 public:
-	barrera_salida(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};
+	barrera_salida(const char *n): Simulator(n), rng(5489UL) {};
 	void init(double, ...);
 	double ta(double t);
 	void dint(double);

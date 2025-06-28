@@ -7,13 +7,8 @@ Root-Coordinator
    }
   Simulator
    {
-    Path = sinks/to_disk.h
-    Parameters = "sensor_entrada.csv"
-   }
-  Simulator
-   {
-    Path = sinks/gnuplot.h
-    Parameters = 1.000000e+00,"set xrange [0:%tf] @ set grid @ set title 'Plot'","with point title 'First output'","","","",""
+    Path = sources/controlador.h
+    Parameters = 
    }
   Simulator
    {
@@ -27,8 +22,8 @@ Root-Coordinator
    }
   Simulator
    {
-    Path = sinks\to_disk.h
-    Parameters = "generador_arribos.csv"
+    Path = sources/estacionamiento.h
+    Parameters = 
    }
   Simulator
    {
@@ -42,13 +37,13 @@ Root-Coordinator
    }
   Simulator
    {
-    Path = sources/controlador.h
-    Parameters = 
+    Path = sinks\to_disk.h
+    Parameters = "generador_arribos.csv"
    }
   Simulator
    {
-    Path = sources/estacionamiento.h
-    Parameters = 
+    Path = sinks/to_disk.h
+    Parameters = "sensor_entrada.csv"
    }
   Simulator
    {
@@ -63,23 +58,18 @@ Root-Coordinator
    }
   IC
    {
-    (3,0);(2,0)
-    (3,0);(1,0)
-    (0,0);(3,0)
-    (0,0);(5,0)
-    (7,0);(6,1)
-    (4,0);(8,2)
-    (7,0);(8,3)
-    (6,0);(8,1)
-    (3,0);(8,0)
-    (8,0);(4,0)
-    (8,1);(4,1)
-    (4,0);(3,1)
-    (4,1);(3,1)
-    (8,2);(7,0)
-    (9,0);(6,0)
-    (4,0);(10,0)
-    (4,1);(10,0)
-    (8,3);(9,0)
+    (0,0);(2,0)
+    (1,0);(3,0)
+    (1,1);(3,1)
+    (1,3);(4,0)
+    (3,0);(9,0)
+    (3,0);(1,2)
+    (0,0);(7,0)
+    (2,0);(8,0)
+    (2,0);(1,0)
+    (4,0);(5,0)
+    (5,0);(1,1)
+    (1,2);(6,0)
+    (6,0);(1,3)
    }
  }

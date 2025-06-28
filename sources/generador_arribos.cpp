@@ -49,5 +49,4 @@ Event generador_arribos::lambda(double t) {
 }
 void generador_arribos::exit() {
 //Code executed at the end of the simulation.
-
 }

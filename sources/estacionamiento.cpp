@@ -15,7 +15,7 @@ void estacionamiento::init(double t,...) {
 //      %Name% is the parameter name
 //	%Type% is the parameter type
     sigma = infinity;
-    id = id_actual;
+    insertado = false;
 }
 double estacionamiento::ta(double t) {
 //This function returns a double.
@@ -49,18 +49,18 @@ void estacionamiento::dext(Event x, double t) {
         printLog("Estacionamiento dext: No hay vehiculos en la cola, no hay tiempos para actualizar\n");
     }
     // ahora procesamos el vehiculo que esta entrando
-    id = *static_cast<double*>(x.value);
+    id = *(double*)(x.value);
     printLog("Estacionamiento dext: vehiculo ID = %f\n", id);
-    double r = rng.Random();
-	double tiempo_permanencia = 120 + r * (300 - 120);
-    std::pair<double, double> vehiculo = std::make_pair(id, tiempo_permanencia);
+    r = rng.Random();
+	tiempo_permanencia = 120 + r * (300 - 120);
+    vehiculo = std::make_pair(id, tiempo_permanencia);
     printLog("Vehiculo %f va a estar %f dentro del estacionamiento. Sale en %f (tiempo actual + tiempo_permanencia)\n", id, tiempo_permanencia, t + tiempo_permanencia);
-    if(l.empty()) {
+    if (l.empty()) {
         l.push_back(vehiculo); // si esta sola pushea el vehiculo
         sigma = tiempo_permanencia;
-    }else {
+    } else {
         std::deque<std::pair<double, double> >::iterator it;
-        bool insertado = false; // lo q pasaba antes era que si el nuevo auto tenia el mayor tiempo de todos, no se insertaba
+        insertado = false; // lo q pasaba antes era que si el nuevo auto tenia el mayor tiempo de todos, no se insertaba
         for (it = l.begin(); it != l.end(); it++) { // insertando ordenado
             if (vehiculo.second < it->second) { // una vez que encuentra el lugar del vehiculo que entro lo inserta a la cola
                 l.insert(it, vehiculo);
@@ -84,10 +84,9 @@ Event estacionamiento::lambda(double t) {
 //where:
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
-    id_actual = l.front().first; // el id del vehiculo que quiere salir es el primero de la col
-    printLog("Vehiculo quiere salir en t = %f con ID = %f \n", t, id_actual);
-    vehiculoQuiereSalir = id_actual;
-    return Event(&vehiculoQuiereSalir, 0);
+    id = l.front().first; // el id del vehiculo que quiere salir es el primero de la col
+    printLog("Vehiculo quiere salir en t = %f con ID = %f \n", t, id);
+    return Event(&id, 0);
 }
 void estacionamiento::exit() {
 //Code executed at the end of the simulation.

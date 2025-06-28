@@ -10,18 +10,28 @@ void sensor_salida::init(double t,...) {
 //where:
 //      %Name% is the parameter name
 //	%Type% is the parameter type
-    b = false;
+    estado_sensor_s = false;
     sigma = infinity;
-    id = &id_actual;
 }
 double sensor_salida::ta(double t) {
 //This function returns a double.
     return sigma;
 }
 void sensor_salida::dint(double t) {
-    printLog("SS dint: INICIO | t=%f | b=%d | sigma=%f | cola=%zu\n", t, b, sigma, l.size());
-    sigma = infinity;
-    printLog("SS dint: FIN | t=%f | b=%d | sigma=%f | cola=%zu\n", t, b, sigma, l.size());
+    printLog("SS dint: INICIO | t=%f | estado_sensor_s=%d | sigma=%f | cola=%zu\n", t, estado_sensor_s, sigma, l.size());
+    if (!l.empty()) {
+        id = l.front();
+        printLog("ID tope de la cola: %f\n", id);
+        l.pop();
+        estado_sensor_s = true;
+        sigma = 1.0;
+        printLog("SE dint: sensor sigue ocupado. ID: %f en proceso. estado_sensor_s=%d\n", id, estado_sensor_s);
+    } else {
+        printLog("SE dint: sensor libre. No hay vehiculos en la cola.\n");
+        estado_sensor_s = false;
+        sigma = infinity;
+    }
+    printLog("SS dint: FIN | t=%f | estado_sensor_s=%d | sigma=%f | cola=%zu\n", t, estado_sensor_s, sigma, l.size());
 }
 void sensor_salida::dext(Event x, double t) {
 //The input event is in the 'x' variable.
@@ -29,39 +39,25 @@ void sensor_salida::dext(Event x, double t) {
 //     'x.value' is the value (pointer to void)
 //     'x.port' is the port number
 //     'e' is the time elapsed since last transition
-    printLog("SS dext: INICIO | t=%f | b=%d | sigma=%f | cola=%zu\n", t, b, sigma, l.size());
+    printLog("SS dext: INICIO | t=%f | estado_sensor_s=%d | sigma=%f | cola=%zu\n", t, estado_sensor_s, sigma, l.size());
     if (x.port == 0) { // Evento por el puerto 0 (estacionamiento)
-        if (!b) { // Proceso de salida libre
+        if (!estado_sensor_s) { // Proceso de salida libre
             printLog("SS dext: PS libre y llegó por puerto 0 en t = %f\n", t);
-            b = true;
+            estado_sensor_s = true;
             sigma = 1.0;
-            printLog("SS dext: PS ahora está ocupado. b=%d\n", b);
-            id_actual = *static_cast<double*>(x.value);
-            printLog("-------------------------------- ID = %f\n", id_actual);
+            printLog("SS dext: PS ahora está ocupado. estado_sensor_s=%d\n", estado_sensor_s);
+            id = *(double*)(x.value);
         } else { // Proceso de salida ocupado
             printLog("SS dext: PS ocupado y llegó por puerto 0 en t = %f\n", t);
-            double* valor = static_cast<double*>(x.value);
-            l.push(*valor);
-            printLog("Se agrega a la cola el vehiculo ID = %f, b = %d\n", *valor, b);
+            aux = *(double*)(x.value);
+            l.push(aux);
+            printLog("Se agrega a la cola el vehiculo ID = %f, estado_sensor_s = %d\n", aux, estado_sensor_s);
             if (sigma != infinity){ // para obviar un monton de casos
                 sigma -= e;
             }
         }
-    } else if (x.port == 1) { // Evento por el puerto 1 (barrera de salida), implicitamente b es true
-        if (l.empty()) { // si la lista es vacia entonces esperamos
-            printLog("SS dext: PS ocupado y llegó por puerto 1 y en t = %f\n", t);
-            b = false;
-            sigma = infinity;
-            printLog("SS dext: PS ahora está esperando. b=%d\n", b);
-        } else { // cuando la lista no es vacia, sacamos el del tope
-            printLog("SS dext: PS ocupado y llegó por puerto 1 en t = %f\n", t);
-            sigma = 1.0;
-            printLog("SS dext: PS sigue ocupado. b=%d\n", b);
-            id_actual = l.front(); // Tomamos el primer elemento de la cola
-            l.pop();
-        }
     }
-    printLog("SS dext: FIN | t=%f | b=%d | sigma=%f | cola=%zu\n", t, b, sigma, l.size());
+    printLog("SS dext: FIN | t=%f | estado_sensor_s=%d | sigma=%f | cola=%zu\n", t, estado_sensor_s, sigma, l.size());
 }
 Event sensor_salida::lambda(double t) {
 //This function returns an Event:
@@ -69,10 +65,8 @@ Event sensor_salida::lambda(double t) {
 //where:
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
-    printLog("Sensor salida: Se solicita salida en t = %f\n", t);
-    printLog("-------------------------------- ID = %f\n", *id);
-    solicitarSalida = id;
-    return Event(id, 0);
+    printLog("Sensor salida: ID: %f solicita salida en t = %f\n", id, t);
+    return Event(&id, 0);
 }
 void sensor_salida::exit() {
 //Code executed at the end of the simulation.

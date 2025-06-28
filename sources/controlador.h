@@ -6,6 +6,7 @@
 #include "event.h"
 #include "stdarg.h"
 #include "ctime"
+#include "queue"
 #include <limits>
 #include "../random/lib/randomc.h"
 #include "../random/lib/stocc.h"
@@ -17,22 +18,16 @@ class controlador: public Simulator {
 // output variables
 // and parameters
 
-bool b, b2, ingreso, egreso;
+double id, id_cola, r, tiempo_respuesta, puerto_cola;
 double sigma, c;
-double* permitirSalida;
+bool proc_entrada, proc_salida, ingreso;
 CRandomMersenne rng;
 static const double infinity;
-double* id;
-double* id2;
-double id_salida;
-double* vehiculoIngresando;
-double* vehiculoEgresando;
-double* permitirEntrada;
-double* denegarEntrada;
-double id_actual;
+std::deque<std::pair<double, double> > l;
+std::pair<double, double> vehiculo;
 
 public:
-	controlador(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};
+	controlador(const char *n): Simulator(n), rng(5489UL) {};
 	void init(double, ...);
 	double ta(double t);
 	void dint(double);
