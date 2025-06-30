@@ -18,12 +18,13 @@ class controlador: public Simulator {
 // output variables
 // and parameters
 
-double id, id_cola, r, tiempo_respuesta, puerto_cola;
+double id_entrada, id_salida, id_cola_entrada, id_cola_salida, r, tiempo_respuesta, puerto_cola;
 double sigma, c;
-bool proc_entrada, proc_salida, ingreso;
+bool proc_entrada, proc_salida, ingreso, fin_entrada, fin_salida;
 CRandomMersenne rng;
 static const double infinity;
-std::deque<std::pair<double, double> > l;
+std::deque<std::pair<double, double> > l_entrada;
+std::deque<std::pair<double, double> > l_salida;
 std::pair<double, double> vehiculo;
 
 public:

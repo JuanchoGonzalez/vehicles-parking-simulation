@@ -39,6 +39,11 @@ void sensor_salida::dext(Event x, double t) {
 //     'x.value' is the value (pointer to void)
 //     'x.port' is the port number
 //     'e' is the time elapsed since last transition
+    double incomingId = *(double*)(x.value);
+    printLog(">>> SS dext RECIBIDO ID=%.0f por puerto %d en t=%.6f (estado=%d, cola=%zu)\n\n",
+             incomingId, x.port, t, estado_sensor_s, l.size());
+
+
     printLog("SS dext: INICIO | t=%f | estado_sensor_s=%d | sigma=%f | cola=%zu\n", t, estado_sensor_s, sigma, l.size());
     if (x.port == 0) { // Evento por el puerto 0 (estacionamiento)
         if (!estado_sensor_s) { // Proceso de salida libre
@@ -65,6 +70,7 @@ Event sensor_salida::lambda(double t) {
 //where:
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
+    printLog(">>> SS lambda EMITIENDO ID=%.0f en t=%.6f\n\n", id, t);
     printLog("Sensor salida: ID: %f solicita salida en t = %f\n", id, t);
     return Event(&id, 0);
 }
