@@ -18,14 +18,19 @@ class controlador: public Simulator {
 // output variables
 // and parameters
 
-double id_entrada, id_salida, id_cola_entrada, id_cola_salida, r, tiempo_respuesta, puerto_cola;
+double id, r, tiempo_respuesta;
 double sigma, c;
-bool proc_entrada, proc_salida, ingreso, fin_entrada, fin_salida;
+bool proc_entrada, proc_salida, ingreso, fin_entrada, fin_salida, estado_controlador, egreso;
 CRandomMersenne rng;
 static const double infinity;
-std::deque<std::pair<double, double> > l_entrada;
-std::deque<std::pair<double, double> > l_salida;
-std::pair<double, double> vehiculo;
+struct eventos{
+	double id;
+	int puerto;
+	eventos() {};
+	eventos(double i, int p): id(i), puerto(p) {};
+};
+std::deque<eventos> eventos_pendientes;
+eventos evento_actual;
 
 public:
 	controlador(const char *n): Simulator(n), rng(5489UL) {};

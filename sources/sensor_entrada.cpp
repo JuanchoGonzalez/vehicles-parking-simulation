@@ -21,7 +21,7 @@ void sensor_entrada::dint(double t) {
     printLog("SE dint: INICIO | t=%f | estado_sensor_e=%d | sigma=%f | cola=%zu\n", t, estado_sensor_e, sigma, l.size());
     if (!l.empty()) {
         id = l.front();
-        printLog("ID tope de la cola: %f\n", id);
+        printLog("SE dint: ID tope de la cola: %f\n", id);
         l.pop();
         estado_sensor_e = true;
         sigma = 1.0;
@@ -51,7 +51,7 @@ void sensor_entrada::dext(Event x, double t) {
             printLog("SE dext: sensor ocupado y llegó por puerto 0 en t = %f\n", t);
             aux = *(double*)(x.value);
             l.push(aux);
-            printLog("Se agrega a la cola el vehiculo ID = %f, estado_sensor_e = %d\n", aux, estado_sensor_e);
+            printLog("SE dext: Se agrega a la cola el vehiculo ID = %f, estado_sensor_e = %d\n", aux, estado_sensor_e);
             if (sigma != infinity){ // para obviar un monton de casos
                 sigma -= e;
             }
@@ -65,7 +65,7 @@ Event sensor_entrada::lambda(double t) {
 //where:
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
-    printLog("Sensor lambda: detectando vehiculo ID = %f en t = %f \n", id, t);
+    printLog("Sensor entrada lambda: detectando vehiculo ID = %f en t = %f \n", id, t);
     return Event(&id, 0);
 }
 void sensor_entrada::exit() {

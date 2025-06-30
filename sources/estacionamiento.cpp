@@ -40,6 +40,7 @@ void estacionamiento::dext(Event x, double t) {
 //     'x.value' is the value (pointer to void)
 //     'x.port' is the port number
 //     'e' is the time elapsed since last transition
+    printLog("Estacionamiento dext: INICIO | t=%f | sigma=%f\n", t, sigma);
     if (!l.empty()) { // lo primero que se hace es actualizar los tiempos de los autos que ya habia
         printLog("Estacionamiento dext: Actualizando tiempos de los vehiculos en la cola\n");
         for (std::deque<std::pair<double, double> >::iterator it = l.begin(); it != l.end(); ++it) {
@@ -50,11 +51,11 @@ void estacionamiento::dext(Event x, double t) {
     }
     // ahora procesamos el vehiculo que esta entrando
     id = *(double*)(x.value);
-    printLog("Estacionamiento dext: vehiculo ID = %f\n", id);
+    printLog("Estacionamiento dext: Vehiculo ID = %f\n", id);
     r = rng.Random();
 	tiempo_permanencia = 120 + r * (300 - 120);
     vehiculo = std::make_pair(id, tiempo_permanencia);
-    printLog("Vehiculo %f va a estar %f dentro del estacionamiento. Sale en %f (tiempo actual + tiempo_permanencia)\n", id, tiempo_permanencia, t + tiempo_permanencia);
+    printLog("Estacionamiento dext: Vehiculo %f va a estar %f dentro del estacionamiento. Sale en %f (tiempo actual + tiempo_permanencia)\n", id, tiempo_permanencia, t + tiempo_permanencia);
     if (l.empty()) {
         l.push_back(vehiculo); // si esta sola pushea el vehiculo
         sigma = tiempo_permanencia;
@@ -73,10 +74,11 @@ void estacionamiento::dext(Event x, double t) {
         }
         sigma = l.front().second; // el tiempo de salida es el del primer vehiculo de la cola
     }
-    printLog("Vehiculos dentro del Estacionaimento:\n");
+    printLog("Estacionamiento dext: Vehiculos dentro del Estacionaimento:\n");
     for (std::deque<std::pair<double, double> >::iterator vit = l.begin(); vit != l.end(); ++vit) {
         printLog("  ID: %f, Tiempo: %f\n", vit->first, vit->second);
     }
+    printLog("Estacionamiento dext: FIN | t=%f | sigma=%f\n", t, sigma);
 }
 Event estacionamiento::lambda(double t) {
 //This function returns an Event:
@@ -85,7 +87,7 @@ Event estacionamiento::lambda(double t) {
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
     id = l.front().first; // el id del vehiculo que quiere salir es el primero de la col
-    printLog("Vehiculo quiere salir en t = %f con ID = %f \n", t, id);
+    printLog("Estacionamiento lambda: Vehiculo quiere salir en t = %f con ID = %f \n", t, id);
     return Event(&id, 0);
 }
 void estacionamiento::exit() {

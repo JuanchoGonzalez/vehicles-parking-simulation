@@ -39,13 +39,13 @@ Coupled
         Atomic
             {
             Name = Controlador
-            Ports = 4 ; 4
+            Ports = 4 ; 5
             Path = sources/controlador.h
             Description = Atomic DEVS model
             Graphic
                 {
-                Position = -5055 ; -3330
-                Dimension = 675 ; 675
+                Position = -5055 ; -3375
+                Dimension = 675 ; 750
                 Direction = Right
                 Color = 15
                 Icon = None
@@ -152,7 +152,7 @@ Coupled
             Description = Save the values (event,t) in a file.
             Graphic
                 {
-                Position = -9405 ; -8130
+                Position = -10155 ; -8805
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -171,7 +171,7 @@ Coupled
             Description = Save the values (event,t) in a file.
             Graphic
                 {
-                Position = -6480 ; -8205
+                Position = -10155 ; -7680
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -201,6 +201,82 @@ Coupled
                 File = Str; barrera_entrada.csv ; file name
                 }
             }
+        Atomic
+            {
+            Name = sensor_salida.csv
+            Ports = 1 ; 0
+            Path = sinks\to_disk.h
+            Description = Save the values (event,t) in a file.
+            Graphic
+                {
+                Position = -1230 ; -6630
+                Dimension = 675 ; 675
+                Direction = Right
+                Color = 15
+                Icon = %sinks%todisk.svg
+                }
+            Parameters
+                {
+                File = Str; sensor_salida.csv ; file name
+                }
+            }
+        Atomic
+            {
+            Name = estacionamiento.csv
+            Ports = 1 ; 0
+            Path = sinks\to_disk.h
+            Description = Save the values (event,t) in a file.
+            Graphic
+                {
+                Position = 3570 ; -3105
+                Dimension = 675 ; 675
+                Direction = Right
+                Color = 15
+                Icon = %sinks%todisk.svg
+                }
+            Parameters
+                {
+                File = Str; estacionamiento.csv ; file name
+                }
+            }
+        Atomic
+            {
+            Name = barrera_salida.csv
+            Ports = 1 ; 0
+            Path = sinks\to_disk.h
+            Description = Save the values (event,t) in a file.
+            Graphic
+                {
+                Position = 945 ; -1530
+                Dimension = 675 ; 675
+                Direction = Right
+                Color = 15
+                Icon = %sinks%todisk.svg
+                }
+            Parameters
+                {
+                File = Str; barrera_salida.csv ; file name
+                }
+            }
+        Atomic
+            {
+            Name = To Disk0
+            Ports = 1 ; 0
+            Path = sinks\to_disk.h
+            Description = Save the values (event,t) in a file.
+            Graphic
+                {
+                Position = -5055 ; -1530
+                Dimension = 675 ; 675
+                Direction = Right
+                Color = 15
+                Icon = %sinks%todisk.svg
+                }
+            Parameters
+                {
+                File = Str; output.csv ; file name
+                }
+            }
         Line
             {
             Source = Cmp ;  1 ;  1 ; 0
@@ -213,21 +289,21 @@ Coupled
             Source = Cmp ;  2 ;  1 ; 0
             Sink = Cmp ;  4 ;  1 ; -1
             PointX = -4275 ; -3675 ; -3675 ; -11550 ; -11550 ; -9015
-            PointY = -3225 ; -3225 ; -9000 ; -9000 ; -2325 ; -2325
+            PointY = -3300 ; -3300 ; -9000 ; -9000 ; -2325 ; -2325
             }
         Line
             {
             Source = Cmp ;  2 ;  2 ; 0
             Sink = Cmp ;  4 ;  2 ; -1
             PointX = -4275 ; -3450 ; -3450 ; -11850 ; -11850 ; -9015
-            PointY = -3075 ; -3075 ; -9300 ; -9300 ; -2025 ; -2025
+            PointY = -3150 ; -3150 ; -9300 ; -9300 ; -2025 ; -2025
             }
         Line
             {
             Source = Cmp ;  2 ;  4 ; 0
             Sink = Cmp ;  5 ;  1 ; -1
-            PointX = -4275 ; -4275 ; 1035
-            PointY = -2775 ; -2775 ; -2775
+            PointX = -4275 ; 1035 ; 1035
+            PointY = -2850 ; -2850 ; -2775
             }
         Line
             {
@@ -247,21 +323,14 @@ Coupled
             {
             Source = Cmp ;  1 ;  1 ; 0
             Sink = Cmp ;  8 ;  1 ; -1
-            PointX = -10125 ; -9675 ; -9675 ; -10275 ; -10275 ; -9540
-            PointY = -5250 ; -5250 ; -6825 ; -6825 ; -7800 ; -7800
-            }
-        Line
-            {
-            Source = Cmp ;  3 ;  1 ; 0
-            Sink = Cmp ;  9 ;  1 ; -1
-            PointX = -8025 ; -7125 ; -7125 ; -6615
-            PointY = -4500 ; -4500 ; -7875 ; -7875
+            PointX = -10125 ; -9675 ; -9675 ; -11175 ; -11175 ; -10290
+            PointY = -5250 ; -5250 ; -5700 ; -5700 ; -8475 ; -8475
             }
         Line
             {
             Source = Cmp ;  3 ;  1 ; 0
             Sink = Cmp ;  2 ;  1 ; -1
-            PointX = -8025 ; -7125 ; -7125 ; -5190
+            PointX = -8025 ; -7725 ; -7725 ; -5190
             PointY = -4500 ; -4500 ; -3225 ; -3225
             }
         Line
@@ -282,8 +351,8 @@ Coupled
             {
             Source = Cmp ;  2 ;  3 ; 0
             Sink = Cmp ;  7 ;  1 ; -1
-            PointX = -4275 ; -4275 ; -3450 ; -3450 ; -1440
-            PointY = -2925 ; -2925 ; -2925 ; -1200 ; -1200
+            PointX = -4275 ; -3450 ; -3450 ; -1440
+            PointY = -3000 ; -3000 ; -1200 ; -1200
             }
         Line
             {
@@ -291,6 +360,41 @@ Coupled
             Sink = Cmp ;  2 ;  4 ; -1
             PointX = -525 ; 0 ; 0 ; -6075 ; -6075 ; -5190
             PointY = -1200 ; -1200 ; -75 ; -75 ; -2775 ; -2775
+            }
+        Line
+            {
+            Source = Cmp ;  3 ;  1 ; 0
+            Sink = Cmp ;  9 ;  1 ; -1
+            PointX = -8025 ; -8025 ; -7725 ; -7725 ; -9300 ; -9300 ; -10875 ; -10875 ; -10290
+            PointY = -4500 ; -4500 ; -4500 ; -5025 ; -5025 ; -5850 ; -5850 ; -7350 ; -7350
+            }
+        Line
+            {
+            Source = Cmp ;  6 ;  1 ; 0
+            Sink = Cmp ;  11 ;  1 ; -1
+            PointX = -1425 ; -2025 ; -2025 ; -1365
+            PointY = -4575 ; -4575 ; -6300 ; -6300
+            }
+        Line
+            {
+            Source = Cmp ;  5 ;  1 ; 0
+            Sink = Cmp ;  12 ;  1 ; -1
+            PointX = 1950 ; 1950 ; 3435
+            PointY = -2775 ; -2775 ; -2775
+            }
+        Line
+            {
+            Source = Cmp ;  7 ;  1 ; 0
+            Sink = Cmp ;  13 ;  1 ; -1
+            PointX = -525 ; -525 ; 810
+            PointY = -1200 ; -1200 ; -1200
+            }
+        Line
+            {
+            Source = Cmp ;  2 ;  5 ; 0
+            Sink = Cmp ;  14 ;  1 ; -1
+            PointX = -4275 ; -3750 ; -3750 ; -5550 ; -5550 ; -5190
+            PointY = -2700 ; -2700 ; -1725 ; -1725 ; -1200 ; -1200
             }
         }
     }
