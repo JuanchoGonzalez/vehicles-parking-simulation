@@ -55,6 +55,8 @@ void controlador::dint(double t) {
 			tiempo_respuesta = r * 3;
 			sigma = tiempo_respuesta;
 			evento_actual = eventos(id, e.puerto);
+			printLog("tiempo de respuesta que sigue: %f\n", sigma);
+			estado_controlador = true;
 		} else {
 			// No hay evento procesable
 			sigma = infinity;
