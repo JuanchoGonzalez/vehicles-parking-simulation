@@ -65,11 +65,6 @@ Root-Coordinator
     Path = sinks\to_disk.h
     Parameters = "barrera_salida.csv"
    }
-  Simulator
-   {
-    Path = sinks\to_disk.h
-    Parameters = "output.csv"
-   }
   EIC
    {
    }
@@ -81,9 +76,6 @@ Root-Coordinator
     (0,0);(2,0)
     (1,0);(3,0)
     (1,1);(3,1)
-    (1,3);(4,0)
-    (3,0);(9,0)
-    (3,0);(1,2)
     (0,0);(7,0)
     (2,0);(1,0)
     (4,0);(5,0)
@@ -94,6 +86,9 @@ Root-Coordinator
     (5,0);(10,0)
     (4,0);(11,0)
     (6,0);(12,0)
-    (1,4);(13,0)
+    (3,1);(4,0)
+    (3,1);(1,2)
+    (3,0);(1,2)
+    (3,1);(9,0)
    }
  }

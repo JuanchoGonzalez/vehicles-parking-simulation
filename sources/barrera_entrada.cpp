@@ -58,10 +58,12 @@ Event barrera_entrada::lambda(double t) {
 //     %NroPort% is the port number (from 0 to n-1)
 	if (proc_barrera_e) {
 		printLog("Barrera Entrada lambda: como se permitio la entrada, el vehiculo con ID = %f ingreso en t = %f \n", id, t);
+		return Event(&id, 1);
 	} else {
 		printLog("Barrera Entrada lambda: como se denego la entrada, el vehiculo con ID = %f se fue en t = %f \n", id, t);
+		id = -1;
+		return Event(&id, 0);
 	}
-	return Event(&id, 0);
 	// else {
 	// 	printLog("Barrera Entrada: como se rechazo la entrada, el vehiculo se fue en t = %f \n", t);
 	// 	return Event(&id, 1); // puerto 1 para fin de barrera

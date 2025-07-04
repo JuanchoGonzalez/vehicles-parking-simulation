@@ -39,13 +39,13 @@ Coupled
         Atomic
             {
             Name = Controlador
-            Ports = 4 ; 5
+            Ports = 4 ; 3
             Path = sources/controlador.h
             Description = Atomic DEVS model
             Graphic
                 {
-                Position = -5055 ; -3375
-                Dimension = 675 ; 750
+                Position = -5055 ; -3330
+                Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
                 Icon = None
@@ -75,7 +75,7 @@ Coupled
         Atomic
             {
             Name = BarreraEntrada
-            Ports = 2 ; 1
+            Ports = 2 ; 2
             Path = sources/barrera_entrada.h
             Description = Atomic DEVS model
             Graphic
@@ -152,7 +152,7 @@ Coupled
             Description = Save the values (event,t) in a file.
             Graphic
                 {
-                Position = -10155 ; -8805
+                Position = -10230 ; -8730
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -171,7 +171,7 @@ Coupled
             Description = Save the values (event,t) in a file.
             Graphic
                 {
-                Position = -10155 ; -7680
+                Position = -8205 ; -7605
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -258,25 +258,6 @@ Coupled
                 File = Str; barrera_salida.csv ; file name
                 }
             }
-        Atomic
-            {
-            Name = To Disk0
-            Ports = 1 ; 0
-            Path = sinks\to_disk.h
-            Description = Save the values (event,t) in a file.
-            Graphic
-                {
-                Position = -5055 ; -1530
-                Dimension = 675 ; 675
-                Direction = Right
-                Color = 15
-                Icon = %sinks%todisk.svg
-                }
-            Parameters
-                {
-                File = Str; output.csv ; file name
-                }
-            }
         Line
             {
             Source = Cmp ;  1 ;  1 ; 0
@@ -289,42 +270,21 @@ Coupled
             Source = Cmp ;  2 ;  1 ; 0
             Sink = Cmp ;  4 ;  1 ; -1
             PointX = -4275 ; -3675 ; -3675 ; -11550 ; -11550 ; -9015
-            PointY = -3300 ; -3300 ; -9000 ; -9000 ; -2325 ; -2325
+            PointY = -3150 ; -3150 ; -9000 ; -9000 ; -2325 ; -2325
             }
         Line
             {
             Source = Cmp ;  2 ;  2 ; 0
             Sink = Cmp ;  4 ;  2 ; -1
             PointX = -4275 ; -3450 ; -3450 ; -11850 ; -11850 ; -9015
-            PointY = -3150 ; -3150 ; -9300 ; -9300 ; -2025 ; -2025
-            }
-        Line
-            {
-            Source = Cmp ;  2 ;  4 ; 0
-            Sink = Cmp ;  5 ;  1 ; -1
-            PointX = -4275 ; 1035 ; 1035
-            PointY = -2850 ; -2850 ; -2775
-            }
-        Line
-            {
-            Source = Cmp ;  4 ;  1 ; 0
-            Sink = Cmp ;  10 ;  1 ; -1
-            PointX = -8100 ; -7050 ; -7050 ; -8925 ; -8925 ; -8490
-            PointY = -2175 ; -2175 ; -825 ; -825 ; -300 ; -300
-            }
-        Line
-            {
-            Source = Cmp ;  4 ;  1 ; 0
-            Sink = Cmp ;  2 ;  3 ; -1
-            PointX = -8100 ; -7050 ; -7050 ; -5190
-            PointY = -2175 ; -2175 ; -2925 ; -2925
+            PointY = -3000 ; -3000 ; -9300 ; -9300 ; -2025 ; -2025
             }
         Line
             {
             Source = Cmp ;  1 ;  1 ; 0
             Sink = Cmp ;  8 ;  1 ; -1
-            PointX = -10125 ; -9675 ; -9675 ; -11175 ; -11175 ; -10290
-            PointY = -5250 ; -5250 ; -5700 ; -5700 ; -8475 ; -8475
+            PointX = -10125 ; -9675 ; -9675 ; -11100 ; -11100 ; -10365
+            PointY = -5250 ; -5250 ; -5925 ; -5925 ; -8400 ; -8400
             }
         Line
             {
@@ -337,8 +297,8 @@ Coupled
             {
             Source = Cmp ;  5 ;  1 ; 0
             Sink = Cmp ;  6 ;  1 ; -1
-            PointX = 1950 ; 1950 ; 2250 ; 2250 ; -510
-            PointY = -2775 ; -2775 ; -2775 ; -4575 ; -4575
+            PointX = 1950 ; 2250 ; 2250 ; -510
+            PointY = -2775 ; -2775 ; -4575 ; -4575
             }
         Line
             {
@@ -352,7 +312,7 @@ Coupled
             Source = Cmp ;  2 ;  3 ; 0
             Sink = Cmp ;  7 ;  1 ; -1
             PointX = -4275 ; -3450 ; -3450 ; -1440
-            PointY = -3000 ; -3000 ; -1200 ; -1200
+            PointY = -2775 ; -2775 ; -1200 ; -1200
             }
         Line
             {
@@ -365,8 +325,8 @@ Coupled
             {
             Source = Cmp ;  3 ;  1 ; 0
             Sink = Cmp ;  9 ;  1 ; -1
-            PointX = -8025 ; -8025 ; -7725 ; -7725 ; -9300 ; -9300 ; -10875 ; -10875 ; -10290
-            PointY = -4500 ; -4500 ; -4500 ; -5025 ; -5025 ; -5850 ; -5850 ; -7350 ; -7350
+            PointX = -8025 ; -8025 ; -7725 ; -7725 ; -8925 ; -8925 ; -8340
+            PointY = -4500 ; -4500 ; -4500 ; -5850 ; -5850 ; -7275 ; -7275
             }
         Line
             {
@@ -391,10 +351,31 @@ Coupled
             }
         Line
             {
-            Source = Cmp ;  2 ;  5 ; 0
-            Sink = Cmp ;  14 ;  1 ; -1
-            PointX = -4275 ; -3750 ; -3750 ; -5550 ; -5550 ; -5190
-            PointY = -2700 ; -2700 ; -1725 ; -1725 ; -1200 ; -1200
+            Source = Cmp ;  4 ;  2 ; 0
+            Sink = Cmp ;  5 ;  1 ; -1
+            PointX = -8100 ; -8100 ; 0 ; 0 ; 1035
+            PointY = -2025 ; -2025 ; -2025 ; -2775 ; -2775
+            }
+        Line
+            {
+            Source = Cmp ;  4 ;  2 ; 0
+            Sink = Cmp ;  2 ;  3 ; -1
+            PointX = -8100 ; -6750 ; -6750 ; -5190
+            PointY = -2025 ; -2025 ; -2925 ; -2925
+            }
+        Line
+            {
+            Source = Cmp ;  4 ;  1 ; 0
+            Sink = Cmp ;  2 ;  3 ; -1
+            PointX = -8100 ; -7875 ; -7875 ; -5190
+            PointY = -2325 ; -2325 ; -2925 ; -2925
+            }
+        Line
+            {
+            Source = Cmp ;  4 ;  2 ; 0
+            Sink = Cmp ;  10 ;  1 ; -1
+            PointX = -8100 ; -7425 ; -7425 ; -8925 ; -8925 ; -8490
+            PointY = -2025 ; -2025 ; -975 ; -975 ; -300 ; -300
             }
         }
     }
