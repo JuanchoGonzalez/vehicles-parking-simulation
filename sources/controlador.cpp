@@ -19,7 +19,7 @@ void controlador::init(double t,...) {
 	procesado_salida = false;
 	egreso = false;
 	estado_controlador = false;
-	c = 0;
+	c = 0.0;
 	sigma = infinity;
 	eventos_pendientes.clear();
 }
@@ -75,7 +75,15 @@ void controlador::dext(Event x, double t) {
 //     'e' is the time elapsed since last transition
 	printLog("Controlador dext: INICIO | t=%f | sigma=%f | ec=%s | pe=%s | ps=%s | eventos pendientes=%zu\n", t, sigma, estado_controlador ? "true" : "false", proc_entrada ? "true" : "false", proc_salida ? "true" : "false", eventos_pendientes.size());
 	if (x.port == 0) {
-		if (estado_controlador || proc_entrada) {
+		printLog("C autos: %f\n", c);
+		if (c >= 25) {
+			id = *(double*)(x.value);
+			evento_actual = eventos(id, x.port);
+			proc_entrada = false;
+			//estado_controlador = true;
+			sigma = 0.0;
+			printLog("Nuevo: --------------------\n");
+		} else if (estado_controlador || proc_entrada) {
 			printLog("Controlador dext: Se agrego evento pendiente: ID = %f, PUERTO = %d\n", *(double*)(x.value), x.port);
 			sigma -= e;
 			eventos_pendientes.push_back(eventos(*(double*)(x.value), x.port));
@@ -108,9 +116,9 @@ void controlador::dext(Event x, double t) {
 	}
 	if (x.port == 2) {
 		proc_entrada = false;
-		if (*(double*)(x.value) >= 0) {
+		if (*(double*)(x.value) >= 0) { // si es mayor o igual a 0 entonces es porque vino un vehiculo que entra
 			c += 1;
-		}
+		} // sino procesa entrada, denegaria digamos
 		procesado_entrada = false;
 		if (!estado_controlador) {
 			std::deque<eventos>::iterator it = eventos_pendientes.begin();
