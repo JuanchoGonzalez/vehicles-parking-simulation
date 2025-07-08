@@ -1,5 +1,7 @@
 #include "monitor.h"
 
+extern double tiempo_total_inesperados;
+extern double autos_inesperados;
 const double monitor::infinity = std::numeric_limits<double>::infinity();
 
 void monitor::init(double t,...) {
@@ -70,7 +72,7 @@ return Event();
 void monitor::exit() {
 //Code executed at the end of the simulation.
     // a)
-    tiempoPromedio = tiempoTotal / aceptados;
+    tiempoPromedio = (tiempoTotal + tiempo_total_inesperados) / (aceptados + autos_inesperados);
     printLog("Monitor: Tiempo promedio de permanencia en el estacionamiento: %f\n", tiempoPromedio);
 
     // b)

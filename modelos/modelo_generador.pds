@@ -70,6 +70,11 @@ Root-Coordinator
     Path = sources/monitor.h
     Parameters = 
    }
+  Simulator
+   {
+    Path = sinks/to_disk.h
+    Parameters = "barrera_entrada_denegados.csv"
+   }
   EIC
    {
    }
@@ -98,5 +103,6 @@ Root-Coordinator
     (3,0);(13,0)
     (6,0);(13,1)
     (3,1);(13,2)
+    (3,1);(14,0)
    }
  }

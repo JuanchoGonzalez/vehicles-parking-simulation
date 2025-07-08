@@ -75,19 +75,11 @@ void controlador::dext(Event x, double t) {
 //     'e' is the time elapsed since last transition
 	printLog("Controlador dext: INICIO | t=%f | sigma=%f | ec=%s | pe=%s | ps=%s | eventos pendientes=%zu\n", t, sigma, estado_controlador ? "true" : "false", proc_entrada ? "true" : "false", proc_salida ? "true" : "false", eventos_pendientes.size());
 	if (x.port == 0) {
-		printLog("C autos: %f\n", c);
-		if (c >= 25) {
-			id = *(double*)(x.value);
-			evento_actual = eventos(id, x.port);
-			proc_entrada = false;
-			//estado_controlador = true;
-			sigma = 0.0;
-			printLog("Nuevo: --------------------\n");
-		} else if (estado_controlador || proc_entrada) {
+		if (estado_controlador || proc_entrada) {
 			printLog("Controlador dext: Se agrego evento pendiente: ID = %f, PUERTO = %d\n", *(double*)(x.value), x.port);
 			sigma -= e;
 			eventos_pendientes.push_back(eventos(*(double*)(x.value), x.port));
-		} else if (!proc_entrada) {
+		} else {
 			r = rng.Random();
 			tiempo_respuesta = r * 3;
 			sigma = tiempo_respuesta;
@@ -103,7 +95,7 @@ void controlador::dext(Event x, double t) {
 			printLog("Controlador dext: Se agrego evento pendiente: ID = %f, PUERTO = %d\n", *(double*)(x.value), x.port);
 			sigma -= e;
 			eventos_pendientes.push_back(eventos(*(double*)(x.value), x.port));
-		} else if (!proc_salida) {
+		} else {
 			r = rng.Random();
 			tiempo_respuesta = r * 3;
 			sigma = tiempo_respuesta;
@@ -184,11 +176,13 @@ Event controlador::lambda(double t) {
 	if (proc_salida && evento_actual.puerto == 1) {
 		printLog("Controlador: Se permitio la salida del ID = %f en t = %f \n", evento_actual.id, t);
 		return Event(&evento_actual.id, 2);
-	} else if (proc_entrada && evento_actual.puerto == 0) {
+	} else if (proc_entrada && evento_actual.puerto == 0 && c < CAPACIDAD_MAXIMA) {
 		printLog("Controlador: Se permitio la entrada de ID = %f en t = %f \n", evento_actual.id, t);
+		printLog("Controlador: aceptacion: Autos en el estacionamiento: %f/%d\n", c, CAPACIDAD_MAXIMA);
 		return Event(&evento_actual.id, 0);
 	} else {
 		printLog("Controlador: Se denego la entrada ID = %f en t = %f \n", evento_actual.id, t);
+		printLog("Controlador: denegacion: Autos en el estacionamiento: %f/%d\n", c, CAPACIDAD_MAXIMA);
 		return Event(&evento_actual.id, 1);
 	}
 }

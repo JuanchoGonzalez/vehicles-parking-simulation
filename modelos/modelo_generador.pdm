@@ -276,6 +276,25 @@ Coupled
                 {
                 }
             }
+        Atomic
+            {
+            Name = barrera_entrada_denegados.csv
+            Ports = 1 ; 0
+            Path = sinks/to_disk.h
+            Description = Save the values (event,t) in a file.
+            Graphic
+                {
+                Position = -9030 ; 795
+                Dimension = 675 ; 675
+                Direction = Right
+                Color = 15
+                Icon = %sinks%todisk.svg
+                }
+            Parameters
+                {
+                File = Str; barrera_entrada_denegados.csv ; file name
+                }
+            }
         Line
             {
             Source = Cmp ;  1 ;  1 ; 0
@@ -415,6 +434,13 @@ Coupled
             Sink = Cmp ;  14 ;  3 ; -1
             PointX = -9300 ; -7200 ; -7200 ; -5490
             PointY = -1950 ; -1950 ; 675 ; 675
+            }
+        Line
+            {
+            Source = Cmp ;  4 ;  2 ; 0
+            Sink = Cmp ;  15 ;  1 ; -1
+            PointX = -9300 ; -9165 ; -9165
+            PointY = -1950 ; -1950 ; 1125
             }
         }
     }

@@ -4,7 +4,8 @@
 #include <algorithm>
 
 const double estacionamiento::infinity = std::numeric_limits<double>::infinity();
-
+double tiempo_total_inesperados = 0.0;
+double autos_inesperados = 0.0;
 
 void estacionamiento::init(double t,...) {
 //The 'parameters' variable contains the parameters transferred from the editor.
@@ -16,6 +17,7 @@ void estacionamiento::init(double t,...) {
 //	%Type% is the parameter type
     sigma = infinity;
     insertado = false;
+    //tiempo_total_inesperados = 0.0;
 }
 double estacionamiento::ta(double t) {
 //This function returns a double.
@@ -92,5 +94,13 @@ Event estacionamiento::lambda(double t) {
 }
 void estacionamiento::exit() {
 //Code executed at the end of the simulation.
-
+    while (!l.empty()) {
+        tiempo_total_inesperados += l.front().second; // acumula el tiempo de todos los vehiculos que quedaron en la cola
+        autos_inesperados += 1.0;
+        l.pop_front();
+    }
+    printLog("Tiempo total inesperado %f\n", tiempo_total_inesperados);
+    printLog("autos inesperados %f\n", autos_inesperados);
+    printLog("Estacionamiento exit: Cola de vehiculos vaciada.\n");
+    
 }

@@ -1,7 +1,6 @@
 //CPP:sources/estacionamiento.cpp
 #if !defined estacionamiento_h
 #define estacionamiento_h
-
 #include "simulator.h"
 #include "event.h"
 #include "stdarg.h"

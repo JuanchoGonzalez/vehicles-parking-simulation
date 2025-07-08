@@ -2,6 +2,8 @@
 #if !defined controlador_h
 #define controlador_h
 
+#define CAPACIDAD_MAXIMA 25
+
 #include "simulator.h"
 #include "event.h"
 #include "stdarg.h"
@@ -30,6 +32,7 @@ struct eventos{
 };
 std::deque<eventos> eventos_pendientes;
 eventos evento_actual;
+
 
 public:
 	controlador(const char *n): Simulator(n), rng(5489UL) {};
