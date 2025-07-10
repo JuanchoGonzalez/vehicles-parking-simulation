@@ -1,10 +1,12 @@
 //CPP:sources/barrera_salida.cpp
 #if !defined barrera_salida_h
 #define barrera_salida_h
+#define APERTURA_BARRERA_SALIDA 4
+#define CIERRE_BARRERA_SALIDA 4
 
 #include "simulator.h"
 #include "event.h"
-#include "stdarg.h"
+//#include "stdarg.h"
 #include "limits"
 #include "ctime"
 #include "../random/lib/randomc.h"

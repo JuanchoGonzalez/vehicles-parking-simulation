@@ -18,20 +18,15 @@ double sensor_entrada::ta(double t) {
     return sigma;
 }
 void sensor_entrada::dint(double t) {
-    printLog("SE dint: INICIO | t=%f | estado_sensor_e=%d | sigma=%f | cola=%zu\n", t, estado_sensor_e, sigma, l.size());
     if (!l.empty()) {
         id = l.front();
-        printLog("SE dint: ID tope de la cola: %f\n", id);
         l.pop();
         estado_sensor_e = true;
         sigma = 1.0;
-        printLog("SE dint: sensor sigue ocupado. ID: %f en proceso. estado_sensor_e=%d\n", id, estado_sensor_e);
     } else {
-        printLog("SE dint: sensor libre. No hay vehiculos en la cola.\n");
         estado_sensor_e = false;
         sigma = infinity;
     }
-    printLog("SE dint: FIN | t=%f | estado_sensor_e=%d | sigma=%f | cola=%zu\n", t, estado_sensor_e, sigma, l.size());
 }
 void sensor_entrada::dext(Event x, double t) {
 //The input event is in the 'x' variable.
@@ -39,25 +34,19 @@ void sensor_entrada::dext(Event x, double t) {
 //     'x.value' is the value (pointer to void)
 //     'x.port' is the port number
 //     'e' is the time elapsed since last transition
-    printLog("SE dext: INICIO | t=%f | estado_sensor_e=%d | sigma=%f | cola=%zu\n", t, estado_sensor_e, sigma, l.size());
     if (x.port == 0) { // Evento por el puerto 0 (generador)
         if (!estado_sensor_e) { // sensor libre
-            printLog("SE dext: sensor libre y llegó por puerto 0 en t = %f\n", t);
             estado_sensor_e = true;
             sigma = 1.0;
             id = *(double*)(x.value);
-            printLog("SE dext: sensor ocupado. ID: %f en proceso. estado_sensor_e = %d\n", id, estado_sensor_e);
         } else { // sensor ocupado
-            printLog("SE dext: sensor ocupado y llegó por puerto 0 en t = %f\n", t);
             aux = *(double*)(x.value);
             l.push(aux);
-            printLog("SE dext: Se agrega a la cola el vehiculo ID = %f, estado_sensor_e = %d\n", aux, estado_sensor_e);
             if (sigma != infinity){ // para obviar un monton de casos
-                sigma -= e;
+                sigma -= e; // actualizo sigma
             }
         }
     }
-    printLog("SE dext: FIN | t=%f | estado_sensor_e=%d | sigma=%f | cola=%zu\n", t, estado_sensor_e, sigma, l.size());
 }
 Event sensor_entrada::lambda(double t) {
 //This function returns an Event:

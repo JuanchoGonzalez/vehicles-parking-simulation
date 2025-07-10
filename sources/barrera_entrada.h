@@ -1,6 +1,8 @@
 //CPP:sources/barrera_entrada.cpp
 #if !defined barrera_entrada_h
 #define barrera_entrada_h
+#define APERTURA_BARRERA_ENTRADA 4
+#define CIERRE_BARRERA_ENTRADA 4
 
 #include "simulator.h"
 #include "event.h"

@@ -15,12 +15,12 @@ class estacionamiento: public Simulator {
 // output variables
 // and parameters
 
+double sigma, id, r, tiempo_permanencia;
+bool insertado;
 std::deque<std::pair<double, double> > l;
 std::pair<double, double> vehiculo;
-double sigma, id, r, tiempo_permanencia;
 CRandomMersenne rng;
 static const double infinity;
-bool insertado;
 
 public:
 	estacionamiento(const char *n): Simulator(n), rng(5489UL) {};

@@ -31,31 +31,24 @@ void monitor::dext(Event x, double t) {
 //     'x.value' is the value (pointer to void)
 //     'x.port' is the port number
 //     'e' is the time elapsed since last transition
-    if (x.port == 0) { // entra el id.
+    if (x.port == 0) { // entra un vehiculo al estacionamiento
         id_entra = *static_cast<double*>(x.value);
         id_auto = id_entra;
         vehiculoIngresoEnT = t;
         ingresos[id_auto] = vehiculoIngresoEnT; // id clave, vehiculoIngresoEnT valor
         printLog("Monitor: Vehiculo con ID = %f ingreso al estacionamiento en t = %f\n", id_auto, vehiculoIngresoEnT);
-        
-        printLog("Monitor: Lista de ingresos:\n");
-        for (std::map<double, double>::iterator it = ingresos.begin(); it != ingresos.end(); ++it) {
-            printLog("  ID: %f, t_ingreso: %f\n", it->first, it->second);
-        }
         aceptados += 1.0;
-    } else if (x.port == 1) { // sale un par, de (id,tiempo de salida)
+    } else if (x.port == 1) { // sale un vehiculo del estacionamiento
         id_sale = *static_cast<double*>(x.value);
         id_auto = id_sale;
         vehiculoSeFueEnT = t;
         // Solo sumas si se encuentra el id en el map.
         if (ingresos.count(id_auto)) { // si es true es xq existe
             tiempoTotal += (vehiculoSeFueEnT - ingresos[id_auto]);
-            printLog("Monitor: Tiempo de permanencia del vehiculo con ID = %f: %f\n", id_auto, (vehiculoSeFueEnT - ingresos[id_auto]));
             ingresos.erase(id_auto); // elimina el id del map
-            printLog("Monitor: Tiempo total acumulado hasta el momento es: %f\n", tiempoTotal);
         }
     } else if (x.port == 2) { // vehiculos denegados
-        printLog("Monitor: Vehiculo con ID = %f se fue del estacionamiento en t = %f\n", vehiculoSeFueEnT, t);
+        printLog("Monitor: Vehiculo fue denegado, se fue del estacionamiento en t = %f\n", t);
         rechazados += 1.0;
     }  
 

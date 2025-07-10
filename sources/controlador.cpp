@@ -29,12 +29,14 @@ double controlador::ta(double t) {
 	return sigma;
 }
 void controlador::dint(double t) {
-	printLog("Controlador dint: INICIO | t=%f | sigma=%f | ec=%s | pe=%s | ps=%s | eventos pendientes=%zu\n", t, sigma, estado_controlador ? "true" : "false", proc_entrada ? "true" : "false", proc_salida ? "true" : "false", eventos_pendientes.size());
 	if (eventos_pendientes.empty()) {
+		// sino hay eventos pendientes controlador desocupado y esperando evento
 		sigma = infinity;
 		estado_controlador = false;
-	} else {
-		// Buscar el primer evento procesable
+	} else { 
+		// Buscar el primer evento procesable tanto fuera:
+		// 2 opciones: 1. que venga por puerto 0 y la entrada desocupada
+		// 			   2. que venga por puerto 1 y la salida desocupada
 		std::deque<eventos>::iterator it = eventos_pendientes.begin();
 		while (it != eventos_pendientes.end()) {
 			if ((it->puerto == 0 && !proc_entrada) || (it->puerto == 1 && !proc_salida)) {
@@ -42,22 +44,22 @@ void controlador::dint(double t) {
 			}
 			++it;
 		}
+		// Si se encontro un evento procesable que agarre el id y ademas lo borre de la cola
 		if (it != eventos_pendientes.end()) {
 			eventos e = *it;
 			eventos_pendientes.erase(it);
 			id = e.id;
+			// pregunta por que puerto es procesable el evento y pone correspondiente proceso en ocupado
 			if (e.puerto == 0) {
 				proc_entrada = true;
-				printLog("Controlador dint: Procesando evento de entrada: ID = %f, PUERTO = %d\n", id, e.puerto);
 			} else if (e.puerto == 1) {
 				proc_salida = true;
-				printLog("Controlador dint: Procesando evento de salida: ID = %f, PUERTO = %d\n", id, e.puerto);
 			}
-			r = rng.Random();
-			tiempo_respuesta = r * 3;
+			r = rng.Random(); // numero random entre 0 y 1
+			tiempo_respuesta = r * 3; // formula inversa uniforme 0 + r * (3 - 0) 
 			sigma = tiempo_respuesta;
+			// el evento actual es el id correspondiente y el puerto por donde entro
 			evento_actual = eventos(id, e.puerto);
-			printLog("tiempo de respuesta que sigue: %f\n", sigma);
 			estado_controlador = true;
 		} else {
 			// No hay evento procesable
@@ -65,7 +67,6 @@ void controlador::dint(double t) {
 			estado_controlador = false;
 		}
 	}
-	printLog("Controlador dint: FIN | t=%f | sigma=%f | ec=%s | pe=%s | ps=%s | eventos pendientes=%zu\n", t, sigma, estado_controlador ? "true" : "false", proc_entrada ? "true" : "false", proc_salida ? "true" : "false", eventos_pendientes.size());
 }
 void controlador::dext(Event x, double t) {
 //The input event is in the 'x' variable.
@@ -73,26 +74,24 @@ void controlador::dext(Event x, double t) {
 //     'x.value' is the value (pointer to void)
 //     'x.port' is the port number
 //     'e' is the time elapsed since last transition
-	printLog("Controlador dext: INICIO | t=%f | sigma=%f | ec=%s | pe=%s | ps=%s | eventos pendientes=%zu\n", t, sigma, estado_controlador ? "true" : "false", proc_entrada ? "true" : "false", proc_salida ? "true" : "false", eventos_pendientes.size());
-	if (x.port == 0) {
+	if (x.port == 0) { // si viene por puerto 0 es porque entra un vehiculo
 		if (estado_controlador || proc_entrada) {
-			printLog("Controlador dext: Se agrego evento pendiente: ID = %f, PUERTO = %d\n", *(double*)(x.value), x.port);
+			// actualizo sigma si esta en proceso el controlador o si ya esta procesando la entrada y lo pongo en la cola
 			sigma -= e;
 			eventos_pendientes.push_back(eventos(*(double*)(x.value), x.port));
 		} else {
-			r = rng.Random();
-			tiempo_respuesta = r * 3;
+			r = rng.Random(); // numero random entre 0 y 1
+			tiempo_respuesta = r * 3; // formula inversa uniforme 0 + r * (3 - 0) 
 			sigma = tiempo_respuesta;
 			id = *(double*)(x.value);
 			estado_controlador = true;
 			proc_entrada = true;
 			evento_actual = eventos(id, x.port);
-			printLog("Controlador dext: Procesando evento de entrada: ID = %f, PUERTO = %d. Tarda en responder: %f\n", id, x.port, sigma);
 		}
 	}
-	if (x.port == 1) {
+	if (x.port == 1) { // si viene por puerto 1 es porque sale un vehiculo
 		if (estado_controlador || proc_salida) {
-			printLog("Controlador dext: Se agrego evento pendiente: ID = %f, PUERTO = %d\n", *(double*)(x.value), x.port);
+			// actualizo sigma si esta en proceso el controlador o si ya esta procesando la salida y lo pongo en la cola
 			sigma -= e;
 			eventos_pendientes.push_back(eventos(*(double*)(x.value), x.port));
 		} else {
@@ -103,14 +102,13 @@ void controlador::dext(Event x, double t) {
 			estado_controlador = true;
 			proc_salida = true;
 			evento_actual = eventos(id, x.port);
-			printLog("Controlador dext: Procesando evento de salida: ID = %f, PUERTO = %d. Tarda en responder: %f\n", id, x.port, sigma);
 		}
 	}
-	if (x.port == 2) {
+	if (x.port == 2) { // si viene por puerto 2 es porque entro uno o se denego uno (pero proceso de entrada)
 		proc_entrada = false;
-		if (*(double*)(x.value) >= 0) { // si es mayor o igual a 0 entonces es porque vino un vehiculo que entra
+		if (*(double*)(x.value) >= 0) { // si es mayor o igual a 0 entonces es porque vino un vehiculo que entra sino seria -1 y no sumo xq denege entrada
 			c += 1;
-		} // sino procesa entrada, denegaria digamos
+		}
 		procesado_entrada = false;
 		if (!estado_controlador) {
 			std::deque<eventos>::iterator it = eventos_pendientes.begin();
@@ -120,12 +118,11 @@ void controlador::dext(Event x, double t) {
 					eventos_pendientes.erase(it);
 					id = e2.id;
 					proc_entrada = true;
-					r = rng.Random();
-					tiempo_respuesta = r * 3;
+					r = rng.Random(); // numero random entre 0 y 1
+					tiempo_respuesta = r * 3; // formula inversa uniforme 0 + r * (3 - 0)
 					sigma = tiempo_respuesta;
 					estado_controlador = true;
 					evento_actual = eventos(id, e2.puerto);
-					printLog("Controlador dext: Procesando evento de entrada pendiente tras liberar proc_entrada: ID = %f, PUERTO = %d\n", id, e2.puerto);
 					procesado_entrada = true;
 					break;
 				}
@@ -137,7 +134,7 @@ void controlador::dext(Event x, double t) {
 		}
 	}
 
-	if (x.port == 3) {
+	if (x.port == 3) { // si viene por puerto 3 es porque salio uno
 		proc_salida = false;
 		c -= 1;
 		procesado_salida = false;
@@ -149,12 +146,11 @@ void controlador::dext(Event x, double t) {
 					eventos_pendientes.erase(it);
 					id = e2.id;
 					proc_salida = true;
-					r = rng.Random();
-					tiempo_respuesta = r * 3;
+					r = rng.Random(); // numero random entre 0 y 1
+					tiempo_respuesta = r * 3; // formula inversa uniforme 0 + r * (3 - 0)
 					sigma = tiempo_respuesta;
 					estado_controlador = true;
 					evento_actual = eventos(id, e2.puerto);
-					printLog("Controlador dext: Procesando evento de salida pendiente tras liberar proc_salida: ID = %f, PUERTO = %d\n", id, e2.puerto);
 					procesado_salida = true;
 					break;
 				}
@@ -165,7 +161,6 @@ void controlador::dext(Event x, double t) {
 			sigma -= e;
 		}
 	}
-	printLog("Controlador dext: FIN | t=%f | sigma=%f | ec=%s | pe=%s | ps=%s | eventos pendientes=%zu\n", t, sigma, estado_controlador ? "true" : "false", proc_entrada ? "true" : "false", proc_salida ? "true" : "false", eventos_pendientes.size());
 }
 Event controlador::lambda(double t) {
 //This function returns an Event:
@@ -178,11 +173,9 @@ Event controlador::lambda(double t) {
 		return Event(&evento_actual.id, 2);
 	} else if (proc_entrada && evento_actual.puerto == 0 && c < CAPACIDAD_MAXIMA) {
 		printLog("Controlador: Se permitio la entrada de ID = %f en t = %f \n", evento_actual.id, t);
-		printLog("Controlador: aceptacion: Autos en el estacionamiento: %f/%d\n", c, CAPACIDAD_MAXIMA);
 		return Event(&evento_actual.id, 0);
 	} else {
-		printLog("Controlador: Se denego la entrada ID = %f en t = %f \n", evento_actual.id, t);
-		printLog("Controlador: denegacion: Autos en el estacionamiento: %f/%d\n", c, CAPACIDAD_MAXIMA);
+		printLog("Controlador: Se denego la entrada en t = %f \n", t);
 		return Event(&evento_actual.id, 1);
 	}
 }

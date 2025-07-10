@@ -4,7 +4,6 @@
 
 #include "simulator.h"
 #include "event.h"
-#include "stdarg.h"
 #include "queue"
 #include "limits"
 
@@ -13,9 +12,8 @@ class sensor_salida: public Simulator {
 // output variables
 // and parameters
 
+double sigma, id, aux;
 bool estado_sensor_s;
-double sigma;
-double id, aux;
 std::queue<double> l;
 
 static const double infinity;

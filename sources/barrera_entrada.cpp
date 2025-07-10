@@ -20,11 +20,8 @@ double barrera_entrada::ta(double t) {
 	return sigma;
 }
 void barrera_entrada::dint(double t) {
-	printLog("Barrera Entrada dint: INICIO | t=%f | proc_barrera_e=%d | sigma=%f\n", t, proc_barrera_e, sigma);
 	proc_barrera_e = false;
 	sigma = infinity;
-	printLog("Barrera Entrada dint: FIN | t=%f | proc_barrera_e=%d | sigma=%f\n", t, proc_barrera_e, sigma);
-	// estos valores xq el vehiculo pasa de uno en uno.
 }
 void barrera_entrada::dext(Event x, double t) {
 //The input event is in the 'x' variable.
@@ -32,22 +29,20 @@ void barrera_entrada::dext(Event x, double t) {
 //     'x.value' is the value (pointer to void)
 //     'x.port' is the port number
 //     'e' is the time elapsed since last transition
-    printLog("Barrera Entrada dext: INICIO | t=%f | proc_barrera_e=%d | sigma=%f | port=%d\n", t, proc_barrera_e, sigma, x.port);
 	if (x.port == 0){ // se permite la entrada (viene el id del controlador)
 		proc_barrera_e = true;
 		r = rng.Random();
-		cruce_vehiculo_e = 1 + r * (3 - 1); 
+		cruce_vehiculo_e = 1 + r * (3 - 1); // formula inversa uniforme 1 + r * (3 - 1)
 		id = *(double*)(x.value);
-		sigma = 4 + cruce_vehiculo_e + 4;
-		printLog("Barrera Entrada dext: se permitio la entrada de vehiculo ID = %f. Deberia entrar en: %f + 4 + %f + 4\n", id, t, cruce_vehiculo_e);
-	} else if (x.port == 1) { // se deniega la entrada pq no hay lugar (viene el id del controlador)
+		sigma = APERTURA_BARRERA_ENTRADA + cruce_vehiculo_e + CIERRE_BARRERA_ENTRADA;
+		printLog("Barrera Entrada dext: se permitio la entrada de vehiculo ID = %f. Deberia entrar en: %f + %f + %f + %f\n", id, t, APERTURA_BARRERA_ENTRADA, cruce_vehiculo_e, CIERRE_BARRERA_ENTRADA);
+	} else if (x.port == 1) { // se deniega la entrada (viene el id del controlador)
 		proc_barrera_e = false;
 		r = rng.Random();
 		salida_vehiculo_e = r * 2; // formula inversa uniforme 0 + r * (2 - 0)
 		sigma = salida_vehiculo_e;
 		printLog("Barrera Entrada dext: se rechazo la entrada de vehiculo ID = %f. Deberia irse en: %f + %f\n", *(double*)(x.value) , t, salida_vehiculo_e);
 	}
-	printLog("Barrera Entrada dext: FIN | t=%f | proc_barrera_e=%d | sigma=%f | port=%d\n", t, proc_barrera_e, sigma, x.port);
 }
 
 Event barrera_entrada::lambda(double t) {
@@ -61,14 +56,9 @@ Event barrera_entrada::lambda(double t) {
 		return Event(&id, 0);
 	} else {
 		printLog("Barrera Entrada lambda: como se denego la entrada, se fue en t = %f \n", t);
-		id = -1;
+		id = -1; // Cambia el id que viene a -1 como bandera que se denego la entrada
 		return Event(&id, 1);
 	}
-	// else {
-	// 	printLog("Barrera Entrada: como se rechazo la entrada, el vehiculo se fue en t = %f \n", t);
-	// 	return Event(&id, 1); // puerto 1 para fin de barrera
-	// }
-	// VER PARA EL MONITOR QUE SACAR !!!!!!!
 }
 
 void barrera_entrada::exit() {
