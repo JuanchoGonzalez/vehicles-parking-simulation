@@ -17,6 +17,7 @@ aceptados = 0.0;
 tiempoPromedio = 0.0;
 rechazados = 0.0;
 sigma = infinity;
+liveness = true;
 }
 double monitor::ta(double t) {
 //This function returns a double.
@@ -39,7 +40,8 @@ void monitor::dext(Event x, double t) {
         printLog("Monitor: Vehiculo con ID = %f ingreso al estacionamiento en t = %f\n", id_auto, vehiculoIngresoEnT);
         aceptados += 1.0;
     } else if (x.port == 1) { // sale un vehiculo del estacionamiento
-        id_sale = *static_cast<double*>(x.value);
+        vehiculo_info sal = *(vehiculo_info*)(x.value);
+        id_sale = sal.id;
         id_auto = id_sale;
         vehiculoSeFueEnT = t;
         // Solo sumas si se encuentra el id en el map.
@@ -47,10 +49,26 @@ void monitor::dext(Event x, double t) {
             tiempoTotal += (vehiculoSeFueEnT - ingresos[id_auto]);
             ingresos.erase(id_auto); // elimina el id del map
         }
+
+        for (std::deque<Salida>::iterator it = s.begin(); it != s.end(); ++it) {
+            if (it->id == sal.id) {
+                it->tiempo_barrera = sal.tiempo;
+                if (it->tiempo_permanencia * 0.01 > (it->tiempo_barrera - it->tiempo)) {
+                    liveness = false;
+                }
+                break;
+            }
+        }
+        
+        126 + (253 - 240)
     } else if (x.port == 2) { // vehiculos denegados
         printLog("Monitor: Vehiculo fue denegado, se fue del estacionamiento en t = %f\n", t);
         rechazados += 1.0;
-    }  
+    } else if (x.port == 3) {
+        Salida sal = *(Salida*)(x.value);
+        //sal = (5, 126.42, 240.32) (5. 253.12)
+        s.push_back(sal);
+    }
 
 }
 Event monitor::lambda(double t) {

@@ -27,6 +27,23 @@ double sigma;
 std::map<double, double> ingresos; // id, tiempo de ingreso
 double tasa_rechazo;
 static const double infinity;
+bool liveness;
+
+struct Salida {
+	double id;
+	double tiempo_permanencia;
+	double tiempo;
+	double tiempo_barrera;
+};
+
+Salida salida;
+
+std::deque<Salida> s;
+
+struct vehiculo_info {
+	double id;
+	double tiempo;
+}
 
 public:
 	monitor(const char *n): Simulator(n) {};

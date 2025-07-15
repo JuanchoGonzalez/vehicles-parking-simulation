@@ -40,12 +40,13 @@ void sensor_salida::dext(Event x, double t) {
     */
 
     if (x.port == 0) { // Evento por el puerto 0 (estacionamiento)
+        Salida sal = *(Salida*)(x.value);
         if (!estado_sensor_s) { // Proceso de salida libre
             estado_sensor_s = true;
             sigma = 1.0;
-            id = *(double*)(x.value);
+            id = sal.id;
         } else { // Proceso de salida ocupado
-            aux = *(double*)(x.value);
+            aux = sal.id;
             l.push(aux);
             if (sigma != infinity){ // para obviar un monton de casos
                 sigma -= e;

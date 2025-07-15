@@ -21,6 +21,12 @@ class barrera_salida: public Simulator {
 double sigma, id, r, cruce_vehiculo_s, salida_vehiculo_s;
 bool proc_barrera_s;
 CRandomMersenne rng;
+struct Salida{
+	double id;
+	double tiempo;
+};
+Salida salida;
+
 static const double infinity;
 
 public:

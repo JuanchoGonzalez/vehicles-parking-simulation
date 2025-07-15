@@ -98,7 +98,7 @@ Coupled
             Description = Atomic DEVS model
             Graphic
                 {
-                Position = 1170 ; -3105
+                Position = 1170 ; -3030
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -228,7 +228,7 @@ Coupled
             Description = Save the values (event,t) in a file.
             Graphic
                 {
-                Position = 3570 ; -3105
+                Position = 3570 ; -3030
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -335,7 +335,7 @@ Coupled
             Source = Cmp ;  5 ;  1 ; 0
             Sink = Cmp ;  6 ;  1 ; -1
             PointX = 1950 ; 2250 ; 2250 ; -510
-            PointY = -2775 ; -2775 ; -4575 ; -4575
+            PointY = -2700 ; -2700 ; -4575 ; -4575
             }
         Line
             {
@@ -377,7 +377,7 @@ Coupled
             Source = Cmp ;  5 ;  1 ; 0
             Sink = Cmp ;  12 ;  1 ; -1
             PointX = 1950 ; 1950 ; 3435
-            PointY = -2775 ; -2775 ; -2775
+            PointY = -2700 ; -2700 ; -2700
             }
         Line
             {
@@ -405,7 +405,7 @@ Coupled
             Source = Cmp ;  4 ;  1 ; 0
             Sink = Cmp ;  5 ;  1 ; -1
             PointX = -9300 ; -1275 ; -1275 ; 1035
-            PointY = -2250 ; -2250 ; -2775 ; -2775
+            PointY = -2250 ; -2250 ; -2700 ; -2700
             }
         Line
             {
@@ -441,6 +441,13 @@ Coupled
             Sink = Cmp ;  15 ;  1 ; -1
             PointX = -9300 ; -9165 ; -9165
             PointY = -1950 ; -1950 ; 1125
+            }
+        Line
+            {
+            Source = Cmp ;  5 ;  1 ; 0
+            Sink = NoC ;  0 ; 0 ; 0
+            PointX = 1950 ; 2250 ; 2250 ; -5775
+            PointY = -2700 ; -2700 ; 1500 ; 1500
             }
         }
     }

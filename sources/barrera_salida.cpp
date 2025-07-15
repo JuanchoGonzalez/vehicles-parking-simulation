@@ -44,8 +44,10 @@ Event barrera_salida::lambda(double t) {
 //where:
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
+    salida.id = id;
+    salida.tiempo = t;
     printLog("Barrera Salida lambda: se permitio la salida, el vehiculo con ID = %f salio en t = %f \n",id, t);
-    return Event(&id, 0);
+    return Event(&salida, 0);
 }
 void barrera_salida::exit() {
 //Code executed at the end of the simulation.
