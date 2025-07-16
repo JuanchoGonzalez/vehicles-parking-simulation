@@ -80,6 +80,12 @@ void monitor::dext(Event x, double t) {
         Salida sal = *(Salida*)(x.value);
         //sal = (5, 126.42, 240.32) (5. 253.12)
         s.push_back(sal);
+    } else if (x.port == 4) {
+        tiempo_ocupado = *(double*)(x.value);
+
+        // esto hay que hacerlo me parece en c) en exit.
+        ocupacion_promedio = tiempo_ocupado / t; // t es tiempo total simulado
+        printLog("Monitor: Ocupación promedio del estacionamiento = %.2f%%\n", ocupacion_promedio * 100);
     }
 
 }
@@ -103,6 +109,5 @@ void monitor::exit() {
     printLog("Monitor: Tasa de rechazo: %f\n", tasa_rechazo);
 
     // c)
-
 
 }

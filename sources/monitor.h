@@ -24,6 +24,8 @@ double id_entra;
 double id_sale;
 double id_auto; // ID del auto que entra o sale
 double sigma;
+double tiempo_ocupado;
+double ocupacion_promedio;
 std::map<double, double> ingresos; // id, tiempo de ingreso
 double tasa_rechazo;
 static const double infinity;

@@ -2,7 +2,7 @@
 #if !defined controlador_h
 #define controlador_h
 
-#define CAPACIDAD_MAXIMA 25
+#define CAPACIDAD_MAXIMA 30
 
 #include "simulator.h"
 #include "event.h"

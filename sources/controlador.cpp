@@ -147,7 +147,6 @@ void controlador::dext(Event x, double t) {
 		proc_salida = false;
 		c -= 1;
 		if (ocupado && c == 0) {
-			printLog("Controlador dext: El tiempo ocupado del estacionamiento es %f\n", inicio_ocupacion);
         	tiempo_ocupado += t - inicio_ocupacion;
 			printLog("Controlador dext: El tiempo ocupado del estacionamiento es %f\n", tiempo_ocupado);
         	ocupado = false;
@@ -195,5 +194,6 @@ Event controlador::lambda(double t) {
 	}
 }
 void controlador::exit() {
-//Code executed at the end of the simulation.
+    //out->add(Event(&tiempo_ocupado, 4));
+	//Code executed at the end of the simulation.
 }
