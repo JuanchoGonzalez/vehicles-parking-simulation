@@ -50,17 +50,29 @@ void monitor::dext(Event x, double t) {
             ingresos.erase(id_auto); // elimina el id del map
         }
 
-        for (std::deque<Salida>::iterator it = s.begin(); it != s.end(); ++it) {
-            if (it->id == sal.id) {
-                it->tiempo_barrera = sal.tiempo;
-                if (it->tiempo_permanencia * 0.01 > (it->tiempo_barrera - it->tiempo)) {
-                    liveness = false;
+        if (liveness) {
+            for (std::deque<Salida>::iterator it = s.begin(); it != s.end(); ++it) {
+                if (it->id == sal.id) {
+                    it->tiempo_barrera = sal.tiempo;
+
+                        printLog("----- Liveness Check -----\n");
+                        printLog("ID: %f\n", sal.id);
+                        printLog("Tiempo de permanencia: %f\n", it->tiempo_permanencia);
+                        printLog("1%% del tiempo de permanencia: %f\n", it->tiempo_permanencia * 0.01);
+                        printLog("Tiempo en que pidió salir (lambda): %f\n", it->tiempo);
+                        printLog("Tiempo real de salida (barrera): %f\n", it->tiempo_barrera);
+                        printLog("Diferencia entre barrera y lambda: %f\n", it->tiempo_barrera - it->tiempo);
+
+                    if (it->tiempo_permanencia * 0.01 < (it->tiempo_barrera - it->tiempo)) {
+                        liveness = false;
+                        printLog("❌ Liveness VIOLADA para ID = %f\n", sal.id);
+                    } else {
+                        printLog("✅ Liveness CUMPLIDA para ID = %f\n", sal.id);
+                    }
+                    break;
                 }
-                break;
             }
         }
-        
-        126 + (253 - 240)
     } else if (x.port == 2) { // vehiculos denegados
         printLog("Monitor: Vehiculo fue denegado, se fue del estacionamiento en t = %f\n", t);
         rechazados += 1.0;

@@ -261,12 +261,12 @@ Coupled
         Atomic
             {
             Name = Monitor
-            Ports = 3 ; 0
+            Ports = 4 ; 0
             Path = sources/monitor.h
             Description = Atomic DEVS model
             Graphic
                 {
-                Position = -5355 ; 120
+                Position = -5055 ; 120
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -418,22 +418,22 @@ Coupled
             {
             Source = Cmp ;  4 ;  1 ; 0
             Sink = Cmp ;  14 ;  1 ; -1
-            PointX = -9300 ; -6975 ; -6975 ; -5490
-            PointY = -2250 ; -2250 ; 300 ; 300
+            PointX = -9300 ; -6975 ; -6975 ; -5190
+            PointY = -2250 ; -2250 ; 225 ; 225
             }
         Line
             {
             Source = Cmp ;  7 ;  1 ; 0
             Sink = Cmp ;  14 ;  2 ; -1
-            PointX = -525 ; 150 ; 150 ; -6075 ; -6075 ; -5490
-            PointY = -1200 ; -1200 ; -75 ; -75 ; 450 ; 450
+            PointX = -525 ; 150 ; 150 ; -6075 ; -6075 ; -5190
+            PointY = -1200 ; -1200 ; -75 ; -75 ; 375 ; 375
             }
         Line
             {
             Source = Cmp ;  4 ;  2 ; 0
             Sink = Cmp ;  14 ;  3 ; -1
-            PointX = -9300 ; -7200 ; -7200 ; -5490
-            PointY = -1950 ; -1950 ; 675 ; 675
+            PointX = -9300 ; -7200 ; -7200 ; -5190
+            PointY = -1950 ; -1950 ; 525 ; 525
             }
         Line
             {
@@ -445,9 +445,9 @@ Coupled
         Line
             {
             Source = Cmp ;  5 ;  1 ; 0
-            Sink = NoC ;  0 ; 0 ; 0
-            PointX = 1950 ; 2250 ; 2250 ; -5775
-            PointY = -2700 ; -2700 ; 1500 ; 1500
+            Sink = Cmp ;  14 ;  4 ; -1
+            PointX = 1950 ; 2250 ; 2250 ; -6450 ; -6450 ; -5190
+            PointY = -2700 ; -2700 ; 1500 ; 1500 ; 675 ; 675
             }
         }
     }

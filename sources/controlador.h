@@ -20,8 +20,8 @@ class controlador: public Simulator {
 // output variables
 // and parameters
 
-double id, r, tiempo_respuesta, sigma, c, aux;
-bool proc_entrada, proc_salida, ingreso, fin_entrada, fin_salida, estado_controlador, egreso, procesado_entrada, procesado_salida;
+double id, r, tiempo_respuesta, sigma, c, aux, tiempo_ocupado, inicio_ocupacion;
+bool proc_entrada, proc_salida, ingreso, fin_entrada, fin_salida, estado_controlador, egreso, procesado_entrada, procesado_salida, ocupado;;
 CRandomMersenne rng;
 static const double infinity;
 struct eventos{

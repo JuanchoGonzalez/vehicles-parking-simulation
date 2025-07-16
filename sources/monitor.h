@@ -43,7 +43,7 @@ std::deque<Salida> s;
 struct vehiculo_info {
 	double id;
 	double tiempo;
-}
+};
 
 public:
 	monitor(const char *n): Simulator(n) {};

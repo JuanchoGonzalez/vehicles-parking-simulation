@@ -14,6 +14,13 @@ class sensor_salida: public Simulator {
 
 double sigma, id, aux;
 bool estado_sensor_s;
+struct Salida {
+	double id;
+	double tiempo_a_comparar;
+	double tiempo;
+};
+
+Salida salida;
 std::queue<double> l;
 
 static const double infinity;

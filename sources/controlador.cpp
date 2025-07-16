@@ -22,6 +22,9 @@ void controlador::init(double t,...) {
 	c = 0.0;
 	sigma = infinity;
 	eventos_pendientes.clear();
+	ocupado = false;
+	inicio_ocupacion = 0.0;
+	tiempo_ocupado = 0.0;
 }
 
 double controlador::ta(double t) {
@@ -106,9 +109,15 @@ void controlador::dext(Event x, double t) {
 	}
 	if (x.port == 2) { // si viene por puerto 2 es porque entro uno o se denego uno (pero proceso de entrada)
 		proc_entrada = false;
+		
 		if (*(double*)(x.value) >= 0) { // si es mayor o igual a 0 entonces es porque vino un vehiculo que entra sino seria -1 y no sumo xq denege entrada
+			if (!ocupado && c == 0) {
+        		inicio_ocupacion = t;
+        		ocupado = true;
+				printLog("Controlador dext: El tiempo ocupado del estacionamiento es %f\n", inicio_ocupacion);
+    		}
 			c += 1;
-		}
+		}	
 		procesado_entrada = false;
 		if (!estado_controlador) {
 			std::deque<eventos>::iterator it = eventos_pendientes.begin();
@@ -137,6 +146,12 @@ void controlador::dext(Event x, double t) {
 	if (x.port == 3) { // si viene por puerto 3 es porque salio uno
 		proc_salida = false;
 		c -= 1;
+		if (ocupado && c == 0) {
+			printLog("Controlador dext: El tiempo ocupado del estacionamiento es %f\n", inicio_ocupacion);
+        	tiempo_ocupado += t - inicio_ocupacion;
+			printLog("Controlador dext: El tiempo ocupado del estacionamiento es %f\n", tiempo_ocupado);
+        	ocupado = false;
+     	}
 		procesado_salida = false;
 		if (!estado_controlador) {
 			std::deque<eventos>::iterator it = eventos_pendientes.begin();
