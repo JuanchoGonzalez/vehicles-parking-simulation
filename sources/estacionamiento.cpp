@@ -10,6 +10,10 @@ double autos_inesperados = 0.0;
 void estacionamiento::init(double t,...) {
     va_list parameters;
     va_start(parameters,t);
+    min_tiempo_permanencia = va_arg(parameters, double);
+    max_tiempo_permanencia = va_arg(parameters, double);
+    // rng.seed(va_arg(parameters, unsigned long)); VER
+    printLog("Estacionamiento init: min_tiempo_permanencia = %f, max_tiempo_permanencia = %f\n", min_tiempo_permanencia, max_tiempo_permanencia);
     sigma = infinity;
     insertado = false;
 }
@@ -43,7 +47,7 @@ void estacionamiento::dext(Event x, double t) {
 
         id = *(double*)(x.value);
         r = rng.Random();
-        tiempo_permanencia = 120 + r * (300 - 120);
+        tiempo_permanencia = min_tiempo_permanencia + r * (max_tiempo_permanencia - min_tiempo_permanencia);
 
         vehiculo_info vehiculo;
         vehiculo.id = id;

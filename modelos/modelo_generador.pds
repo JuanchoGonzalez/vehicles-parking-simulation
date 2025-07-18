@@ -3,37 +3,37 @@ Root-Coordinator
   Simulator
    {
     Path = sources/generador_arribos.h
-    Parameters = 
+    Parameters = 1.000000e+01,4.200000e+01
    }
   Simulator
    {
     Path = sources/controlador.h
-    Parameters = 
+    Parameters = 0.000000e+00,3.000000e+01,0.000000e+00,3.000000e+00
    }
   Simulator
    {
     Path = sources/sensor_entrada.h
-    Parameters = 
+    Parameters = 1.000000e+00
    }
   Simulator
    {
     Path = sources/barrera_entrada.h
-    Parameters = 
+    Parameters = 4.000000e+00,4.000000e+00,1.000000e+00,3.000000e+00,0.000000e+00,2.000000e+00
    }
   Simulator
    {
     Path = sources/estacionamiento.h
-    Parameters = 
+    Parameters = 1.200000e+02,3.000000e+02
    }
   Simulator
    {
     Path = sources/sensor_salida.h
-    Parameters = 
+    Parameters = 1.000000e+00
    }
   Simulator
    {
     Path = sources/barrera_salida.h
-    Parameters = 
+    Parameters = 4.000000e+00,4.000000e+00,1.000000e+00,3.000000e+00
    }
   Simulator
    {
@@ -68,7 +68,7 @@ Root-Coordinator
   Simulator
    {
     Path = sources/monitor.h
-    Parameters = 
+    Parameters = 1.000000e+00
    }
   Simulator
    {

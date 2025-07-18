@@ -1,8 +1,10 @@
 #include "controlador.h"
+#include "monitor.h"
 #include "../random/lib/randomc.h"
 #include "../random/lib/stocc.h"
 
 const double controlador::infinity = std::numeric_limits<double>::infinity();
+double tiempo_ocupado_global = 0.0;
 
 void controlador::init(double t,...) {
 //The 'parameters' variable contains the parameters transferred from the editor.
@@ -12,6 +14,11 @@ void controlador::init(double t,...) {
 //where:
 //      %Name% is the parameter name
 //	%Type% is the parameter type
+	c = va_arg(parameters, double);
+	capacidad_maxima = va_arg(parameters, double);
+	min_tiempo_respuesta = va_arg(parameters, double);
+	max_tiempo_respuesta = va_arg(parameters, double);
+	printLog("Controlador: Inicializando con c = %f, min_tiempo_respuesta = %f, max_tiempo_respuesta = %f, capacidad_maxima = %f\n", c, min_tiempo_respuesta, max_tiempo_respuesta, capacidad_maxima);
 	proc_entrada = false;
 	proc_salida = false;
 	ingreso = false;
@@ -19,7 +26,6 @@ void controlador::init(double t,...) {
 	procesado_salida = false;
 	egreso = false;
 	estado_controlador = false;
-	c = 0.0;
 	sigma = infinity;
 	eventos_pendientes.clear();
 	ocupado = false;
@@ -59,7 +65,7 @@ void controlador::dint(double t) {
 				proc_salida = true;
 			}
 			r = rng.Random(); // numero random entre 0 y 1
-			tiempo_respuesta = r * 3; // formula inversa uniforme 0 + r * (3 - 0) 
+			tiempo_respuesta = min_tiempo_respuesta + r * (max_tiempo_respuesta - min_tiempo_respuesta); // formula inversa uniforme 0 + r * (3 - 0) 
 			sigma = tiempo_respuesta;
 			// el evento actual es el id correspondiente y el puerto por donde entro
 			evento_actual = eventos(id, e.puerto);
@@ -84,7 +90,7 @@ void controlador::dext(Event x, double t) {
 			eventos_pendientes.push_back(eventos(*(double*)(x.value), x.port));
 		} else {
 			r = rng.Random(); // numero random entre 0 y 1
-			tiempo_respuesta = r * 3; // formula inversa uniforme 0 + r * (3 - 0) 
+			tiempo_respuesta = min_tiempo_respuesta + r * (max_tiempo_respuesta - min_tiempo_respuesta); // formula inversa uniforme 0 + r * (3 - 0) 
 			sigma = tiempo_respuesta;
 			id = *(double*)(x.value);
 			estado_controlador = true;
@@ -99,7 +105,7 @@ void controlador::dext(Event x, double t) {
 			eventos_pendientes.push_back(eventos(*(double*)(x.value), x.port));
 		} else {
 			r = rng.Random();
-			tiempo_respuesta = r * 3;
+			tiempo_respuesta = min_tiempo_respuesta + r * (max_tiempo_respuesta - min_tiempo_respuesta);
 			sigma = tiempo_respuesta;
 			id = *(double*)(x.value);
 			estado_controlador = true;
@@ -112,10 +118,10 @@ void controlador::dext(Event x, double t) {
 		
 		if (*(double*)(x.value) >= 0) { // si es mayor o igual a 0 entonces es porque vino un vehiculo que entra sino seria -1 y no sumo xq denege entrada
 			if (!ocupado && c == 0) {
-        		inicio_ocupacion = t;
-        		ocupado = true;
+				inicio_ocupacion = t;
+				ocupado = true;
 				printLog("Controlador dext: El tiempo ocupado del estacionamiento es %f\n", inicio_ocupacion);
-    		}
+			}
 			c += 1;
 		}	
 		procesado_entrada = false;
@@ -128,7 +134,7 @@ void controlador::dext(Event x, double t) {
 					id = e2.id;
 					proc_entrada = true;
 					r = rng.Random(); // numero random entre 0 y 1
-					tiempo_respuesta = r * 3; // formula inversa uniforme 0 + r * (3 - 0)
+					tiempo_respuesta = min_tiempo_respuesta + r * (max_tiempo_respuesta - min_tiempo_respuesta); // formula inversa uniforme 0 + r * (3 - 0)
 					sigma = tiempo_respuesta;
 					estado_controlador = true;
 					evento_actual = eventos(id, e2.puerto);
@@ -147,10 +153,10 @@ void controlador::dext(Event x, double t) {
 		proc_salida = false;
 		c -= 1;
 		if (ocupado && c == 0) {
-        	tiempo_ocupado += t - inicio_ocupacion;
+			tiempo_ocupado += t - inicio_ocupacion;
 			printLog("Controlador dext: El tiempo ocupado del estacionamiento es %f\n", tiempo_ocupado);
-        	ocupado = false;
-     	}
+			ocupado = false;
+		}
 		procesado_salida = false;
 		if (!estado_controlador) {
 			std::deque<eventos>::iterator it = eventos_pendientes.begin();
@@ -161,7 +167,7 @@ void controlador::dext(Event x, double t) {
 					id = e2.id;
 					proc_salida = true;
 					r = rng.Random(); // numero random entre 0 y 1
-					tiempo_respuesta = r * 3; // formula inversa uniforme 0 + r * (3 - 0)
+					tiempo_respuesta = min_tiempo_respuesta + r * (max_tiempo_respuesta - min_tiempo_respuesta); // formula inversa uniforme 0 + r * (3 - 0)
 					sigma = tiempo_respuesta;
 					estado_controlador = true;
 					evento_actual = eventos(id, e2.puerto);
@@ -185,7 +191,7 @@ Event controlador::lambda(double t) {
 	if (proc_salida && evento_actual.puerto == 1) {
 		printLog("Controlador: Se permitio la salida del ID = %f en t = %f \n", evento_actual.id, t);
 		return Event(&evento_actual.id, 2);
-	} else if (proc_entrada && evento_actual.puerto == 0 && c < CAPACIDAD_MAXIMA) {
+	} else if (proc_entrada && evento_actual.puerto == 0 && c < capacidad_maxima) {
 		printLog("Controlador: Se permitio la entrada de ID = %f en t = %f \n", evento_actual.id, t);
 		return Event(&evento_actual.id, 0);
 	} else {
@@ -194,6 +200,9 @@ Event controlador::lambda(double t) {
 	}
 }
 void controlador::exit() {
-    //out->add(Event(&tiempo_ocupado, 4));
+	tiempo_ocupado = TIEMPO_TOTAL_SIMULACION - inicio_ocupacion;
+	printLog("Controlador: tiempo ocupado %f\n", tiempo_ocupado);
+	tiempo_ocupado_global = tiempo_ocupado;
+	printLog("Controlador: Tiempo total ocupado del estacionamiento: %f\n", tiempo_ocupado_global);
 	//Code executed at the end of the simulation.
 }

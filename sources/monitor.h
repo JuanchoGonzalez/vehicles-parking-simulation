@@ -9,6 +9,7 @@
 #include <utility>
 #include "limits"
 #include "controlador.h"
+#define TIEMPO_TOTAL_SIMULACION 43200.0
 
 class monitor: public Simulator { 
 // Declare the state,
@@ -20,6 +21,7 @@ double vehiculoIngresoEnT;
 double vehiculoSeFueEnT;
 double tiempoTotal;
 double tiempoPromedio;
+double porcentaje_liveness;
 double id_entra;
 double id_sale;
 double id_auto; // ID del auto que entra o sale

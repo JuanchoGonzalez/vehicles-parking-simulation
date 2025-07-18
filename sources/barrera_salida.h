@@ -18,7 +18,7 @@ class barrera_salida: public Simulator {
 // output variables
 // and parameters
 
-double sigma, id, r, cruce_vehiculo_s, salida_vehiculo_s;
+double sigma, id, r, cruce_vehiculo_s, apertura_barrera_salida, cierre_barrera_salida, min_cruce_s, max_cruce_s;
 bool proc_barrera_s;
 CRandomMersenne rng;
 struct Salida{

@@ -16,10 +16,13 @@ class generador_arribos: public Simulator {
 double sigma;
 double id;
 double r;
-CRandomMersenne rng;
+double media;
+double tasa;
+CRandomMersenne *rng;
+unsigned long semilla;
 double y;
 public:
-	generador_arribos(const char *n): Simulator(n), rng(5489UL) {};
+	generador_arribos(const char *n): Simulator(n) {};
 	void init(double, ...);
 	double ta(double t);
 	void dint(double);

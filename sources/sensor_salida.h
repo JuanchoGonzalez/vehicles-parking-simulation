@@ -14,6 +14,7 @@ class sensor_salida: public Simulator {
 
 double sigma, id, aux;
 bool estado_sensor_s;
+double tiempo_espera_salida;
 struct Salida {
 	double id;
 	double tiempo_a_comparar;

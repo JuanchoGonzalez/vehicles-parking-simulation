@@ -2,6 +2,7 @@
 
 extern double tiempo_total_inesperados;
 extern double autos_inesperados;
+extern double tiempo_ocupado_global;
 const double monitor::infinity = std::numeric_limits<double>::infinity();
 
 void monitor::init(double t,...) {
@@ -12,12 +13,15 @@ va_start(parameters,t);
 //where:
 //      %Name% is the parameter name
 //	%Type% is the parameter type
-tiempoTotal = 0.0;
-aceptados = 0.0;
-tiempoPromedio = 0.0;
-rechazados = 0.0;
-sigma = infinity;
-liveness = true;
+    porcentaje_liveness = va_arg(parameters, double);
+    printLog("Monitor: Porcentaje de liveness: %f (%f)\n", porcentaje_liveness, porcentaje_liveness / 100.0);
+    porcentaje_liveness = porcentaje_liveness / 100.0;
+    tiempoTotal = 0.0;
+    aceptados = 0.0;
+    tiempoPromedio = 0.0;
+    rechazados = 0.0;
+    sigma = infinity;
+    liveness = true;
 }
 double monitor::ta(double t) {
 //This function returns a double.
@@ -58,12 +62,12 @@ void monitor::dext(Event x, double t) {
                         printLog("----- Liveness Check -----\n");
                         printLog("ID: %f\n", sal.id);
                         printLog("Tiempo de permanencia: %f\n", it->tiempo_permanencia);
-                        printLog("1%% del tiempo de permanencia: %f\n", it->tiempo_permanencia * 0.01);
+                        printLog("1%% del tiempo de permanencia: %f\n", it->tiempo_permanencia * porcentaje_liveness);
                         printLog("Tiempo en que pidió salir (lambda): %f\n", it->tiempo);
                         printLog("Tiempo real de salida (barrera): %f\n", it->tiempo_barrera);
                         printLog("Diferencia entre barrera y lambda: %f\n", it->tiempo_barrera - it->tiempo);
 
-                    if (it->tiempo_permanencia * 0.01 < (it->tiempo_barrera - it->tiempo)) {
+                    if (it->tiempo_permanencia * porcentaje_liveness < (it->tiempo_barrera - it->tiempo)) {
                         liveness = false;
                         printLog("❌ Liveness VIOLADA para ID = %f\n", sal.id);
                     } else {
@@ -78,14 +82,7 @@ void monitor::dext(Event x, double t) {
         rechazados += 1.0;
     } else if (x.port == 3) {
         Salida sal = *(Salida*)(x.value);
-        //sal = (5, 126.42, 240.32) (5. 253.12)
         s.push_back(sal);
-    } else if (x.port == 4) {
-        tiempo_ocupado = *(double*)(x.value);
-
-        // esto hay que hacerlo me parece en c) en exit.
-        ocupacion_promedio = tiempo_ocupado / t; // t es tiempo total simulado
-        printLog("Monitor: Ocupación promedio del estacionamiento = %.2f%%\n", ocupacion_promedio * 100);
     }
 
 }
@@ -109,5 +106,8 @@ void monitor::exit() {
     printLog("Monitor: Tasa de rechazo: %f\n", tasa_rechazo);
 
     // c)
-
+    printLog("Monitor: tiempo ocupado global del estacionamiento: %f\n", tiempo_ocupado_global);
+    printLog("Monitor: tiempo total de la simulacion: %f\n", TIEMPO_TOTAL_SIMULACION);
+    ocupacion_promedio = tiempo_ocupado_global / TIEMPO_TOTAL_SIMULACION;
+    printLog("Monitor: Ocupacion promedio del estacionamiento: %f\n", ocupacion_promedio);
 }

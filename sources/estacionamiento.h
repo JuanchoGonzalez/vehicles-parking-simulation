@@ -15,7 +15,7 @@ class estacionamiento: public Simulator {
 // output variables
 // and parameters
 
-double sigma, id, r, tiempo_permanencia, tiempo_a_comparar;
+double sigma, id, r, tiempo_permanencia, tiempo_a_comparar, min_tiempo_permanencia, max_tiempo_permanencia;
 bool insertado;
 struct vehiculo_info {
 	double id;

@@ -13,6 +13,7 @@ class sensor_entrada: public Simulator {
 // and parameters
 
 double sigma, id, aux;
+double tiempo_espera_entrada;
 bool estado_sensor_e;
 std::queue<double> l;
 

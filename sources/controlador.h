@@ -2,8 +2,6 @@
 #if !defined controlador_h
 #define controlador_h
 
-#define CAPACIDAD_MAXIMA 30
-
 #include "simulator.h"
 #include "event.h"
 #include "stdarg.h"
@@ -20,7 +18,7 @@ class controlador: public Simulator {
 // output variables
 // and parameters
 
-double id, r, tiempo_respuesta, sigma, c, aux, tiempo_ocupado, inicio_ocupacion;
+double id, r, tiempo_respuesta, sigma, c, aux, tiempo_ocupado, inicio_ocupacion, min_tiempo_respuesta, max_tiempo_respuesta, capacidad_maxima;
 bool proc_entrada, proc_salida, ingreso, fin_entrada, fin_salida, estado_controlador, egreso, procesado_entrada, procesado_salida, ocupado;;
 CRandomMersenne rng;
 static const double infinity;

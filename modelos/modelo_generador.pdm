@@ -34,6 +34,8 @@ Coupled
                 }
             Parameters
                 {
+                MEDIA = Val; 10 ; Media de la distribucion exponencial mediante la cual se generan los arribos.
+                SEMILLA = Val; 42 ; Semilla para el generador de numeros aleatorios.
                 }
             }
         Atomic
@@ -52,6 +54,10 @@ Coupled
                 }
             Parameters
                 {
+                c = Val; 0 ; Cantidad de vehiculos que hay dentro del estacionamiento al momento de iniciar la simualcion.
+                capacidad_maxima = Val; 30 ; Capacidad maxima de vehiculos dentro del estacionamiento.
+                min_tiempo_respuesta = Val; 0 ; Tiempo minimo que tarda el controlador en dar una respuesta.
+                max_tiempo_respuesta = Val; 3 ; Tiempo maximo que tarda el controlador en dar una respuesta.
                 }
             }
         Atomic
@@ -70,6 +76,7 @@ Coupled
                 }
             Parameters
                 {
+                tiempo_espera_entrada = Val; 1 ; Tiempo que esperara el sensor antes de detectar un vehiculo.
                 }
             }
         Atomic
@@ -88,6 +95,12 @@ Coupled
                 }
             Parameters
                 {
+                apertura_barrera_entrada = Val; 4 ; Tiempo que tarda la barrera en subir.
+                cierre_barrera_entrada = Val; 4 ; Tiempo que tarda la barrera en bajar.
+                min_cruce_e = Val; 1 ; Tiempo minimo que tarda el vehiculo en cruzar.
+                max_cruce_e = Val; 3 ; Tiempo maximo que tarda en cruzar el vehiculo.
+                min_salida_e = Val; 0 ; Tiempo minimo que tarda en irse el vehiculo.
+                max_salida_e = Val; 2 ; Tiempo maximo que tarda en irse el vehiculo.
                 }
             }
         Atomic
@@ -106,6 +119,8 @@ Coupled
                 }
             Parameters
                 {
+                min_tiempo_permanencia = Val; 120 ; Tiempo minimo que va a estar un vehiculo dentro del estacionamiento.
+                max_tiempo_permanencia = Val; 300 ; Tiempo maximo que va a estar un vehiculo dentro del estacionamiento.
                 }
             }
         Atomic
@@ -124,6 +139,7 @@ Coupled
                 }
             Parameters
                 {
+                tiempo_espera_salida = Val; 1 ; Tiempo que esperara el sensor antes de detectar un vehiculo.
                 }
             }
         Atomic
@@ -142,6 +158,10 @@ Coupled
                 }
             Parameters
                 {
+                apertura_barrera_salida = Val; 4 ; Tiempo que tarda la barrera en subir.
+                cierre_barrera_salida = Val; 4 ; Tiempo que tarda la barrera en bajar
+                min_cruce_s = Val; 1 ; Tiempo minimo que tarda el vehiculo en cruzar.
+                max_cruce_s = Val; 3 ; Tiempo maximo que tarda el vehiculo en cruzar.
                 }
             }
         Atomic
@@ -274,6 +294,7 @@ Coupled
                 }
             Parameters
                 {
+                porcentaje_liveness = Val; 1 ; Porcentaje para verificar la propiedad numero 3 de liveness.
                 }
             }
         Atomic

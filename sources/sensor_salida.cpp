@@ -8,8 +8,11 @@ void sensor_salida::init(double t,...) {
     va_start(parameters,t);
 //To get a parameter: %Name% = va_arg(parameters,%Type%)
 //where:
-//      %Name% is the parameter name
+//      %Name% is the parameter name    printLog("Tiempo de espera en sensor entrada: %f \n", tiempo_espera_entrada);
+
 //	%Type% is the parameter type
+    tiempo_espera_salida = va_arg(parameters,double);
+    printLog("Tiempo de espera en sensor salida: %f \n", tiempo_espera_salida);
     estado_sensor_s = false;
     sigma = infinity;
 }
@@ -22,7 +25,7 @@ void sensor_salida::dint(double t) {
         id = l.front();
         l.pop();
         estado_sensor_s = true;
-        sigma = 1.0;
+        sigma = tiempo_espera_salida;
     } else {
         estado_sensor_s = false;
         sigma = infinity;
@@ -43,7 +46,7 @@ void sensor_salida::dext(Event x, double t) {
         Salida sal = *(Salida*)(x.value);
         if (!estado_sensor_s) { // Proceso de salida libre
             estado_sensor_s = true;
-            sigma = 1.0;
+            sigma = tiempo_espera_salida;
             id = sal.id;
         } else { // Proceso de salida ocupado
             aux = sal.id;

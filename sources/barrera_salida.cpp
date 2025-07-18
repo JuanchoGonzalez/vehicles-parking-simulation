@@ -13,6 +13,14 @@ void barrera_salida::init(double t,...) {
 //      %Name% is the parameter name
 //	%Type% is the parameter type
     //proc_barrera_s = false;
+    apertura_barrera_salida = va_arg(parameters,double);
+	cierre_barrera_salida = va_arg(parameters,double);
+    min_cruce_s = va_arg(parameters,double);
+    max_cruce_s = va_arg(parameters,double);
+	printLog("Apertura Barrera Salida: %f \n", apertura_barrera_salida);
+	printLog("Cierre Barrera Salida: %f \n", cierre_barrera_salida);
+    printLog("Minimo Cruce Salida: %f \n", min_cruce_s);
+    printLog("Maximo Cruce Salida: %f \n", max_cruce_s);
 	sigma = infinity;
 }
 double barrera_salida::ta(double t) {
@@ -32,10 +40,10 @@ void barrera_salida::dext(Event x, double t) {
     if (x.port == 0) { // se permite la salida (viene el id del controlador)
         //proc_barrera_s = true;
         r = rng.Random();
-        salida_vehiculo_s = 1 + r * (3 - 1); // formula inversa uniforme 1 + r * (3 - 1)
+        cruce_vehiculo_s = min_cruce_s + r * (max_cruce_s - min_cruce_s); // formula inversa uniforme 1 + r * (3 - 1)
         id = *(double*)(x.value);
-        sigma = APERTURA_BARRERA_SALIDA + salida_vehiculo_s + CIERRE_BARRERA_SALIDA;
-        printLog("Barrera Salida dext: se permitio la salida de vehiculo ID = %f, el auto tarda en cruzar %f . Deberia salir en: %f + %f + %f + %f\n", id, cruce_vehiculo_s, t, salida_vehiculo_s);
+        sigma = apertura_barrera_salida + cruce_vehiculo_s + cierre_barrera_salida;
+        printLog("Barrera Salida dext: se permitio la salida de vehiculo ID = %f, el auto tarda en cruzar %f . Deberia salir en: %f + %f + %f + %f\n", id, cruce_vehiculo_s, t, apertura_barrera_salida, cruce_vehiculo_s, cierre_barrera_salida);
     }
 }
 Event barrera_salida::lambda(double t) {

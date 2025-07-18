@@ -1,8 +1,6 @@
 //CPP:sources/barrera_entrada.cpp
 #if !defined barrera_entrada_h
 #define barrera_entrada_h
-#define APERTURA_BARRERA_ENTRADA 4
-#define CIERRE_BARRERA_ENTRADA 4
 
 #include "simulator.h"
 #include "event.h"
@@ -17,7 +15,7 @@ class barrera_entrada: public Simulator {
 // output variables
 // and parameters
 
-double sigma, id, r, cruce_vehiculo_e, salida_vehiculo_e;
+double sigma, id, r, cruce_vehiculo_e, salida_vehiculo_e, apertura_barrera_entrada, cierre_barrera_entrada, min_cruce_e, max_cruce_e, min_salida_e, max_salida_e;
 bool proc_barrera_e;
 CRandomMersenne rng;
 static const double infinity;
