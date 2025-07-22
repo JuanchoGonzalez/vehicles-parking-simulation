@@ -7,8 +7,8 @@ const double monitor::infinity = std::numeric_limits<double>::infinity();
 
 void monitor::init(double t,...) {
 //The 'parameters' variable contains the parameters transferred from the editor.
-va_list parameters;
-va_start(parameters,t);
+    va_list parameters;
+    va_start(parameters,t);
 //To get a parameter: %Name% = va_arg(parameters,%Type%)
 //where:
 //      %Name% is the parameter name
@@ -93,11 +93,13 @@ Event monitor::lambda(double t) {
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
     
-return Event();
+    return Event();
 }
 void monitor::exit() {
 //Code executed at the end of the simulation.
     // a)
+    printLog("Monitor: Autos inesperados: %f\n", autos_inesperados);
+    printLog("Monitor: tiempo total inesperados: %f\n", tiempo_total_inesperados);
     tiempoPromedio = (tiempoTotal + tiempo_total_inesperados) / (aceptados + autos_inesperados);
     printLog("Monitor: Tiempo promedio de permanencia en el estacionamiento: %f\n", tiempoPromedio);
 

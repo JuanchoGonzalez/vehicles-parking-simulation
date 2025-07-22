@@ -316,6 +316,44 @@ Coupled
                 File = Str; barrera_entrada_denegados.csv ; file name
                 }
             }
+        Atomic
+            {
+            Name = inicio_barrera_entrada.csv
+            Ports = 1 ; 0
+            Path = sinks/to_disk.h
+            Description = Save the values (event,t) in a file.
+            Graphic
+                {
+                Position = -2355 ; -8130
+                Dimension = 675 ; 675
+                Direction = Right
+                Color = 15
+                Icon = %sinks%todisk.svg
+                }
+            Parameters
+                {
+                File = Str; inicio_barrera_entrada.csv ; file name
+                }
+            }
+        Atomic
+            {
+            Name = inicio_barrera_salida.csv
+            Ports = 1 ; 0
+            Path = sinks\to_disk.h
+            Description = Save the values (event,t) in a file.
+            Graphic
+                {
+                Position = -4530 ; -1755
+                Dimension = 675 ; 675
+                Direction = Right
+                Color = 15
+                Icon = %sinks%todisk.svg
+                }
+            Parameters
+                {
+                File = Str; inicio_barrera_salida.csv ; file name
+                }
+            }
         Line
             {
             Source = Cmp ;  1 ;  1 ; 0
@@ -469,6 +507,20 @@ Coupled
             Sink = Cmp ;  14 ;  4 ; -1
             PointX = 1950 ; 2250 ; 2250 ; -6450 ; -6450 ; -5190
             PointY = -2700 ; -2700 ; 1500 ; 1500 ; 675 ; 675
+            }
+        Line
+            {
+            Source = Cmp ;  2 ;  1 ; 0
+            Sink = Cmp ;  16 ;  1 ; -1
+            PointX = -4275 ; -3225 ; -3225 ; -2490
+            PointY = -3150 ; -3150 ; -7800 ; -7800
+            }
+        Line
+            {
+            Source = Cmp ;  2 ;  3 ; 0
+            Sink = Cmp ;  17 ;  1 ; -1
+            PointX = -4275 ; -4050 ; -4050 ; -5175 ; -5175 ; -4665
+            PointY = -2775 ; -2775 ; -1875 ; -1875 ; -1425 ; -1425
             }
         }
     }

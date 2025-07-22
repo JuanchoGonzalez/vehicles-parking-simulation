@@ -18,11 +18,11 @@ double id;
 double r;
 double media;
 double tasa;
-CRandomMersenne *rng;
+CRandomMersenne rng;
 unsigned long semilla;
 double y;
 public:
-	generador_arribos(const char *n): Simulator(n) {};
+	generador_arribos(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};
 	void init(double, ...);
 	double ta(double t);
 	void dint(double);

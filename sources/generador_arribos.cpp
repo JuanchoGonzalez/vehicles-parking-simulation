@@ -11,15 +11,15 @@ void generador_arribos::init(double t,...) {
 //      %Name% is the parameter name
 //	%Type% is the parameter type
     media = va_arg(parameters,double);
-    semilla = (unsigned long)va_arg(parameters,double);
-    rng = new CRandomMersenne(semilla);
+    // semilla = (unsigned long)va_arg(parameters,double);
+    // rng = new CRandomMersenne(semilla);
     tasa = 1/media;
     printLog("Media: %f \n", media);
     printLog("Semilla: %lu \n", semilla);
     id = 0;
-    r = rng->Random();
+    r = rng.Random();
     while (r <= 0.0 || r >= 1.0) {
-        r = rng->Random();
+        r = rng.Random();
     }
     sigma = -(1.0/tasa) * log(1 - r);
 }
@@ -29,9 +29,9 @@ double generador_arribos::ta(double t) {
 }
 void generador_arribos::dint(double t) {
     id++;
-    r = rng->Random();
+    r = rng.Random();
     while (r <= 0.0 || r >= 1.0) {
-        r = rng->Random();
+        r = rng.Random();
     }
     sigma = -(1.0/tasa) * log(1 - r);
 }

@@ -30,7 +30,7 @@ Salida salida;
 static const double infinity;
 
 public:
-	barrera_salida(const char *n): Simulator(n), rng(5489UL) {};
+	barrera_salida(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};
 	void init(double, ...);
 	double ta(double t);
 	void dint(double);

@@ -33,7 +33,7 @@ eventos evento_actual;
 
 
 public:
-	controlador(const char *n): Simulator(n), rng(5489UL) {};
+	controlador(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};
 	void init(double, ...);
 	double ta(double t);
 	void dint(double);
