@@ -4,18 +4,18 @@
 #include <algorithm>
 
 const double estacionamiento::infinity = std::numeric_limits<double>::infinity();
-double tiempo_total_inesperados = 0.0;
-double autos_inesperados = 0.0;
+double tiempo_total_restante = 0.0;
+double vehiculos_restantes = 0.0;
 
 void estacionamiento::init(double t,...) {
     va_list parameters;
     va_start(parameters,t);
     min_tiempo_permanencia = va_arg(parameters, double);
     max_tiempo_permanencia = va_arg(parameters, double);
-    // rng.seed(va_arg(parameters, unsigned long)); VER
-    printLog("Estacionamiento init: min_tiempo_permanencia = %f, max_tiempo_permanencia = %f\n", min_tiempo_permanencia, max_tiempo_permanencia);
     sigma = infinity;
     insertado = false;
+    tiempo_total_restante = 0.0;
+    vehiculos_restantes = 0.0;
 }
 
 double estacionamiento::ta(double t) {
@@ -23,12 +23,12 @@ double estacionamiento::ta(double t) {
 }
 
 void estacionamiento::dint(double t) {
-    l.pop_front(); // saco el primer vehiculo de la cola    
+    l.pop_front(); 
     if (!l.empty()) {
         for (std::deque<vehiculo_info>::iterator it = l.begin(); it != l.end(); ++it) {
-            it->tiempo_permanencia -= sigma;
+            it->permanencia -= sigma;
         }
-        sigma = l.front().tiempo_permanencia;
+        sigma = l.front().permanencia;
     } else {
         sigma = infinity;
     }
@@ -37,23 +37,17 @@ void estacionamiento::dint(double t) {
 void estacionamiento::dext(Event x, double t) {
     if (x.port == 0) {
         if (!l.empty()) {
-            printLog("Estacionamiento dext: Actualizando tiempos de los vehiculos en la cola\n");
             for (std::deque<vehiculo_info>::iterator it = l.begin(); it != l.end(); ++it) {
-                it->tiempo_permanencia -= e;
+                it->permanencia -= e;
             }
-        } else {
-            printLog("Estacionamiento dext: No hay vehiculos en la cola, no hay tiempos para actualizar\n");
         }
-
+        
         id = *(double*)(x.value);
         r = rng.Random();
         tiempo_permanencia = min_tiempo_permanencia + r * (max_tiempo_permanencia - min_tiempo_permanencia);
-
-        vehiculo_info vehiculo;
         vehiculo.id = id;
-        vehiculo.tiempo_permanencia = tiempo_permanencia;
-        vehiculo.tiempo_estacionado = tiempo_permanencia;
-
+        vehiculo.permanencia = tiempo_permanencia;
+        vehiculo.estacionado = tiempo_permanencia;
         printLog("Estacionamiento dext: Vehiculo %f va a estar %f dentro del estacionamiento. Sale en %f (tiempo actual + tiempo_permanencia)\n", id, tiempo_permanencia, t + tiempo_permanencia);
 
         if (l.empty()) {
@@ -63,7 +57,7 @@ void estacionamiento::dext(Event x, double t) {
             std::deque<vehiculo_info>::iterator it;
             insertado = false;
             for (it = l.begin(); it != l.end(); it++) {
-                if (vehiculo.tiempo_permanencia < it->tiempo_permanencia) {
+                if (vehiculo.permanencia < it->permanencia) {
                     l.insert(it, vehiculo);
                     insertado = true;
                     break;
@@ -72,31 +66,28 @@ void estacionamiento::dext(Event x, double t) {
             if (!insertado) {
                 l.push_back(vehiculo);
             }
-            sigma = l.front().tiempo_permanencia;
+            sigma = l.front().permanencia;
         }
 
-        printLog("Estacionamiento dext: Vehiculos dentro del Estacionaimento:\n");
+        printLog("Estacionamiento dext: Vehiculos dentro del Estacionamiento:\n");
         for (std::deque<vehiculo_info>::iterator vit = l.begin(); vit != l.end(); ++vit) {
-            printLog("  ID: %f, Tiempo: %f\n", vit->id, vit->tiempo_permanencia);
+            printLog("  ID: %f, Tiempo: %f\n", vit->id, vit->permanencia);
         }
     }
 }
 
 Event estacionamiento::lambda(double t) {
     salida.id = l.front().id;
-    salida.tiempo_a_comparar = l.front().tiempo_estacionado;
+    salida.tiempo_a_comparar = l.front().estacionado;
     salida.tiempo = t;
-
     printLog("Estacionamiento lambda: Vehiculo quiere salir en t = %f con ID = %f \n", t, salida.id);
-    printLog("Estacionamiento lambda: El vehiculo va a estar estacionado = %f\n", salida.tiempo_a_comparar);
-    printLog("Estacionamiento lambda: El vehiculo salio en = %f\n", salida.tiempo);
     return Event(&salida, 0);
 }
 
 void estacionamiento::exit() {
     while (!l.empty()) {
-        tiempo_total_inesperados += l.front().tiempo_permanencia;
-        autos_inesperados += 1.0;
+        tiempo_total_restante += l.front().permanencia;
+        vehiculos_restantes += 1.0;
         l.pop_front();
     }    
 }

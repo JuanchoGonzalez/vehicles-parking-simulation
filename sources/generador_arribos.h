@@ -13,14 +13,9 @@ class generador_arribos: public Simulator {
 // Declare the state,
 // output variables
 // and parameters
-double sigma;
-double id;
-double r;
-double media;
-double tasa;
+double sigma, id, r, media, tasa;
 CRandomMersenne rng;
-unsigned long semilla;
-double y;
+//unsigned long semilla;
 public:
 	generador_arribos(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};
 	void init(double, ...);

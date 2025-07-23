@@ -18,12 +18,6 @@ void barrera_entrada::init(double t,...) {
 	max_cruce_e = va_arg(parameters,double);
 	min_salida_e = va_arg(parameters,double);
 	max_salida_e = va_arg(parameters,double);
-	printLog("Apertura Barrera Entrada: %f \n", apertura_barrera_entrada);
-	printLog("Cierre Barrera Entrada: %f \n", cierre_barrera_entrada);
-	printLog("Minimo Cruce Entrada: %f \n", min_cruce_e);
-	printLog("Maximo Cruce Entrada: %f \n", max_cruce_e);
-	printLog("Minimo Salida Entrada: %f \n", min_salida_e);
-	printLog("Maximo Salida Entrada: %f \n", max_salida_e);
 	proc_barrera_e = false;
 	sigma = infinity;
 }
@@ -51,9 +45,8 @@ void barrera_entrada::dext(Event x, double t) {
 	} else if (x.port == 1) { // se deniega la entrada (viene el id del controlador)
 		proc_barrera_e = false;
 		r = rng.Random();
-		salida_vehiculo_e = min_salida_e + r * (max_salida_e - min_salida_e); // formula inversa uniforme 0 + r * (2 - 0)
-		sigma = salida_vehiculo_e;
-		printLog("Barrera Entrada dext: se rechazo la entrada de vehiculo ID = %f. Deberia irse en: %f + %f\n", *(double*)(x.value) , t, salida_vehiculo_e);
+		sigma = min_salida_e + r * (max_salida_e - min_salida_e); // formula inversa uniforme 0 + r * (2 - 0)
+		printLog("Barrera Entrada dext: se rechazo la entrada de vehiculo ID = %f. Deberia irse en: %f + %f\n", *(double*)(x.value) , t, sigma);
 	}
 }
 

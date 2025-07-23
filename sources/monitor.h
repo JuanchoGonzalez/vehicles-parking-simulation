@@ -6,9 +6,9 @@
 #include "event.h"
 #include "stdarg.h"
 #include <map>
-#include <utility>
 #include "limits"
 #include "controlador.h"
+#include "estacionamiento.h"
 #define TIEMPO_TOTAL_SIMULACION 43200.0
 
 class monitor: public Simulator { 
@@ -16,20 +16,8 @@ class monitor: public Simulator {
 // output variables
 // and parameters
 
-double aceptados, rechazados;
-double vehiculoIngresoEnT;
-double vehiculoSeFueEnT;
-double tiempoTotal;
-double tiempoPromedio;
-double porcentaje_liveness;
-double id_entra;
-double id_sale;
-double id_auto; // ID del auto que entra o sale
-double sigma;
-double tiempo_ocupado;
-double ocupacion_promedio;
-std::map<double, double> ingresos; // id, tiempo de ingreso
-double tasa_rechazo;
+double aceptados, rechazados, vehiculoIngresoEnT, vehiculoSeFueEnT, tiempoTotal, tiempoPromedio, porcentaje_liveness, id_auto, sigma, tiempo_ocupado, ocupacion_promedio, tasa_rechazo;
+std::map<double, double> ingresos;
 static const double infinity;
 bool liveness;
 
@@ -37,17 +25,15 @@ struct Salida {
 	double id;
 	double tiempo_permanencia;
 	double tiempo;
-	double tiempo_barrera;
 };
-
 Salida salida;
-
 std::deque<Salida> s;
 
 struct vehiculo_info {
 	double id;
 	double tiempo;
 };
+vehiculo_info vehiculo_salida;
 
 public:
 	monitor(const char *n): Simulator(n) {};

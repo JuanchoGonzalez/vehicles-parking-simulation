@@ -185,7 +185,7 @@ Coupled
             }
         Atomic
             {
-            Name = sensor_entrada.csv
+            Name = fin_sensor_entrada.csv
             Ports = 1 ; 0
             Path = sinks/to_disk.h
             Description = Save the values (event,t) in a file.
@@ -199,18 +199,18 @@ Coupled
                 }
             Parameters
                 {
-                File = Str; sensor_entrada.csv ; file name
+                File = Str; fin_sensor_entrada.csv ; file name
                 }
             }
         Atomic
             {
-            Name = barrera_entrada.csv
+            Name = fin_barrera_entrada.csv
             Ports = 1 ; 0
             Path = sinks\to_disk.h
             Description = Save the values (event,t) in a file.
             Graphic
                 {
-                Position = -8730 ; -555
+                Position = -8130 ; -1830
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -218,12 +218,12 @@ Coupled
                 }
             Parameters
                 {
-                File = Str; barrera_entrada.csv ; file name
+                File = Str; fin_barrera_entrada.csv ; file name
                 }
             }
         Atomic
             {
-            Name = sensor_salida.csv
+            Name = fin_sensor_salida.csv
             Ports = 1 ; 0
             Path = sinks\to_disk.h
             Description = Save the values (event,t) in a file.
@@ -237,7 +237,7 @@ Coupled
                 }
             Parameters
                 {
-                File = Str; sensor_salida.csv ; file name
+                File = Str; fin_sensor_salida.csv ; file name
                 }
             }
         Atomic
@@ -261,13 +261,13 @@ Coupled
             }
         Atomic
             {
-            Name = barrera_salida.csv
+            Name = fin_barrera_salida.csv
             Ports = 1 ; 0
             Path = sinks\to_disk.h
             Description = Save the values (event,t) in a file.
             Graphic
                 {
-                Position = 945 ; -1530
+                Position = 870 ; -1530
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -275,7 +275,7 @@ Coupled
                 }
             Parameters
                 {
-                File = Str; barrera_salida.csv ; file name
+                File = Str; fin_barrera_salida.csv ; file name
                 }
             }
         Atomic
@@ -299,13 +299,13 @@ Coupled
             }
         Atomic
             {
-            Name = barrera_entrada_denegados.csv
+            Name = rechazados.csv
             Ports = 1 ; 0
             Path = sinks/to_disk.h
             Description = Save the values (event,t) in a file.
             Graphic
                 {
-                Position = -9030 ; 795
+                Position = -8955 ; -105
                 Dimension = 675 ; 675
                 Direction = Right
                 Color = 15
@@ -313,7 +313,7 @@ Coupled
                 }
             Parameters
                 {
-                File = Str; barrera_entrada_denegados.csv ; file name
+                File = Str; rechazados.csv ; file name
                 }
             }
         Atomic
@@ -442,7 +442,7 @@ Coupled
             {
             Source = Cmp ;  7 ;  1 ; 0
             Sink = Cmp ;  13 ;  1 ; -1
-            PointX = -525 ; -525 ; 810
+            PointX = -525 ; -525 ; 735
             PointY = -1200 ; -1200 ; -1200
             }
         Line
@@ -470,8 +470,8 @@ Coupled
             {
             Source = Cmp ;  4 ;  1 ; 0
             Sink = Cmp ;  10 ;  1 ; -1
-            PointX = -9300 ; -8925 ; -8925 ; -8865
-            PointY = -2250 ; -2250 ; -225 ; -225
+            PointX = -9300 ; -8925 ; -8925 ; -8265
+            PointY = -2250 ; -2250 ; -1500 ; -1500
             }
         Line
             {
@@ -498,8 +498,8 @@ Coupled
             {
             Source = Cmp ;  4 ;  2 ; 0
             Sink = Cmp ;  15 ;  1 ; -1
-            PointX = -9300 ; -9165 ; -9165
-            PointY = -1950 ; -1950 ; 1125
+            PointX = -9300 ; -9090 ; -9090
+            PointY = -1950 ; -1950 ; 225
             }
         Line
             {

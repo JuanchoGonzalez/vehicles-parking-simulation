@@ -11,11 +11,7 @@ void generador_arribos::init(double t,...) {
 //      %Name% is the parameter name
 //	%Type% is the parameter type
     media = va_arg(parameters,double);
-    // semilla = (unsigned long)va_arg(parameters,double);
-    // rng = new CRandomMersenne(semilla);
     tasa = 1/media;
-    printLog("Media: %f \n", media);
-    printLog("Semilla: %lu \n", semilla);
     id = 0;
     r = rng.Random();
     while (r <= 0.0 || r >= 1.0) {
@@ -50,8 +46,7 @@ Event generador_arribos::lambda(double t) {
 //     %&Value% points to the variable which contains the value.
 //     %NroPort% is the port number (from 0 to n-1)
     printLog("Vehiculo: %f llego en t = %f \n", id, t);
-    y = id;
-    return Event(&y, 0);
+    return Event(&id, 0);
 }
 void generador_arribos::exit() {
 //Code executed at the end of the simulation.

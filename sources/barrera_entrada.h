@@ -4,18 +4,18 @@
 
 #include "simulator.h"
 #include "event.h"
+#include "stdarg.h"
 #include "limits"
 #include "ctime"
 #include "../random/lib/randomc.h"
 #include "../random/lib/stocc.h"
-#include <utility>
 
 class barrera_entrada: public Simulator { 
 // Declare the state,
 // output variables
 // and parameters
 
-double sigma, id, r, cruce_vehiculo_e, salida_vehiculo_e, apertura_barrera_entrada, cierre_barrera_entrada, min_cruce_e, max_cruce_e, min_salida_e, max_salida_e;
+double sigma, id, r, cruce_vehiculo_e, apertura_barrera_entrada, cierre_barrera_entrada, min_cruce_e, max_cruce_e, min_salida_e, max_salida_e;
 bool proc_barrera_e;
 CRandomMersenne rng;
 static const double infinity;

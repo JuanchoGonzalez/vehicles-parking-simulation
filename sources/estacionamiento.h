@@ -1,6 +1,7 @@
 //CPP:sources/estacionamiento.cpp
 #if !defined estacionamiento_h
 #define estacionamiento_h
+
 #include "simulator.h"
 #include "event.h"
 #include "stdarg.h"
@@ -15,25 +16,25 @@ class estacionamiento: public Simulator {
 // output variables
 // and parameters
 
-double sigma, id, r, tiempo_permanencia, tiempo_a_comparar, min_tiempo_permanencia, max_tiempo_permanencia;
+double sigma, id, r, tiempo_permanencia, min_tiempo_permanencia, max_tiempo_permanencia;
 bool insertado;
-struct vehiculo_info {
-	double id;
-	double tiempo_permanencia;
-	double tiempo_estacionado;
-};
-std::deque<vehiculo_info> l;
 CRandomMersenne rng;
 static const double infinity;
+
+struct vehiculo_info {
+	double id;
+	double permanencia;
+	double estacionado;
+};
+std::deque<vehiculo_info> l;
+vehiculo_info vehiculo;
 
 struct infoSalida {
 	double id;
 	double tiempo_a_comparar;
 	double tiempo;
 };
-
 infoSalida salida;
-
 
 public:
 	estacionamiento(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};

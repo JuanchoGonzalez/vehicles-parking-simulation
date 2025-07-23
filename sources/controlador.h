@@ -11,17 +11,16 @@
 #include "../random/lib/randomc.h"
 #include "../random/lib/stocc.h"
 
-
-
 class controlador: public Simulator { 
 // Declare the state,
 // output variables
 // and parameters
 
-double id, r, tiempo_respuesta, sigma, c, aux, tiempo_ocupado, inicio_ocupacion, min_tiempo_respuesta, max_tiempo_respuesta, capacidad_maxima;
-bool proc_entrada, proc_salida, ingreso, fin_entrada, fin_salida, estado_controlador, egreso, procesado_entrada, procesado_salida, ocupado;;
+double id, r, sigma, c, tiempo_ocupado, inicio_ocupacion, min_tiempo_respuesta, max_tiempo_respuesta, capacidad_maxima;
+bool proc_entrada, proc_salida, estado_controlador, entrada_encontrada, salida_encontrada, ocupado;
 CRandomMersenne rng;
 static const double infinity;
+
 struct eventos{
 	double id;
 	int puerto;
@@ -30,7 +29,6 @@ struct eventos{
 };
 std::deque<eventos> eventos_pendientes;
 eventos evento_actual;
-
 
 public:
 	controlador(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};

@@ -11,7 +11,6 @@ void sensor_entrada::init(double t,...) {
 //      %Name% is the parameter name
 //	%Type% is the parameter type
     tiempo_espera_entrada = va_arg(parameters,double);
-    printLog("Tiempo de espera en sensor entrada: %f \n", tiempo_espera_entrada);
     estado_sensor_e = false;
     sigma = infinity;
 }
@@ -36,16 +35,16 @@ void sensor_entrada::dext(Event x, double t) {
 //     'x.value' is the value (pointer to void)
 //     'x.port' is the port number
 //     'e' is the time elapsed since last transition
-    if (x.port == 0) { // Evento por el puerto 0 (generador)
-        if (!estado_sensor_e) { // sensor libre
+    if (x.port == 0) {
+        if (!estado_sensor_e) {
             estado_sensor_e = true;
             sigma = tiempo_espera_entrada;
             id = *(double*)(x.value);
-        } else { // sensor ocupado
+        } else {
             aux = *(double*)(x.value);
             l.push(aux);
-            if (sigma != infinity){ // para obviar un monton de casos
-                sigma -= e; // actualizo sigma
+            if (sigma != infinity){
+                sigma -= e;
             }
         }
     }
