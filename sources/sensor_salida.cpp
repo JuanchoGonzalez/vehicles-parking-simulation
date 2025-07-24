@@ -36,11 +36,6 @@ void sensor_salida::dext(Event x, double t) {
 //     'x.value' is the value (pointer to void)
 //     'x.port' is the port number
 //     'e' is the time elapsed since last transition
-    /*double incomingId = *(double*)(x.value);
-    printLog(">>> SS dext RECIBIDO ID=%.0f por puerto %d en t=%.6f (estado=%d, cola=%zu)\n\n",
-             incomingId, x.port, t, estado_sensor_s, l.size());
-    */
-
     if (x.port == 0) {
         entrada = *(Salida*)(x.value);
         if (!estado_sensor_s) {

@@ -68,7 +68,7 @@ Root-Coordinator
   Simulator
    {
     Path = sources/monitor.h
-    Parameters = 1.000000e+00
+    Parameters = 1.000000e+01
    }
   Simulator
    {

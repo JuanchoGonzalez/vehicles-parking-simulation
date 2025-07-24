@@ -294,7 +294,7 @@ Coupled
                 }
             Parameters
                 {
-                porcentaje_liveness = Val; 1 ; Porcentaje para verificar la propiedad numero 3 de liveness.
+                porcentaje_liveness = Val; 10 ; Porcentaje para verificar la propiedad numero 3 de liveness.
                 }
             }
         Atomic

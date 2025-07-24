@@ -56,7 +56,7 @@ void monitor::dext(Event x, double t) {
                         printLog("----- Liveness Check -----\n");
                         printLog("ID: %f\n", vehiculo_salida.id);
                         printLog("Tiempo de permanencia: %f\n", it->tiempo_permanencia);
-                        printLog("1%% del tiempo de permanencia: %f\n", it->tiempo_permanencia * porcentaje_liveness);
+                        printLog("10%% del tiempo de permanencia: %f\n", it->tiempo_permanencia * porcentaje_liveness);
                         printLog("Tiempo en que pidió salir: %f\n", it->tiempo);
                         printLog("Tiempo real de salida: %f\n", vehiculo_salida.tiempo);
                         printLog("Diferencia entre que pidió salir y salió: %f\n", vehiculo_salida.tiempo - it->tiempo);

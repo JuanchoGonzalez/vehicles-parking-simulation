@@ -15,7 +15,6 @@ class generador_arribos: public Simulator {
 // and parameters
 double sigma, id, r, media, tasa;
 CRandomMersenne rng;
-//unsigned long semilla;
 public:
 	generador_arribos(const char *n): Simulator(n), rng(static_cast<int>(std::time(NULL))) {};
 	void init(double, ...);
