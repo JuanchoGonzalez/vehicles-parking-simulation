@@ -43,9 +43,7 @@ void sensor_entrada::dext(Event x, double t) {
         } else {
             aux = *(double*)(x.value);
             l.push(aux);
-            if (sigma != infinity){
-                sigma -= e;
-            }
+            sigma -= e;
         }
     }
 }

@@ -45,9 +45,7 @@ void sensor_salida::dext(Event x, double t) {
         } else {
             aux = entrada.id;
             l.push(aux);
-            if (sigma != infinity) {
-                sigma -= e;
-            }
+            sigma -= e;
         }
     }
 }
